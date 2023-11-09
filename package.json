@@ -1,0 +1,19 @@
+{
+  "name": "cs340-group173",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aseabroo/cs340-group173.git"
+  },
+  "author": "Augustus Seabrooke & Andrew Pruitt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aseabroo/cs340-group173/issues"
+  },
+  "homepage": "https://github.com/aseabroo/cs340-group173#readme"
+}
