@@ -1,0 +1,145 @@
+<html>
+<head>
+<title>OTA_UpdatesAppliances</title>
+<link href="style.css" rel="stylesheet" type="text/css" />
+<script language="JavaScript">
+		function showform(dowhat) {
+			/*
+			* four DIVS: browse, insert, update, delete
+			* this function sets one visible the others not
+			*/
+			if (dowhat == 'insert'){
+				document.getElementById('browse').style.display = 'none';
+				document.getElementById('insert').style.display = 'block';
+				document.getElementById('update').style.display = 'none';
+				document.getElementById('delete').style.display = 'none';
+			}
+			else if (dowhat == 'update'){
+				document.getElementById('browse').style.display = 'none';
+				document.getElementById('insert').style.display = 'none';
+				document.getElementById('update').style.display = 'block';
+				document.getElementById('delete').style.display = 'none';
+			}
+			else if (dowhat == 'delete'){
+				document.getElementById('browse').style.display = 'none';
+				document.getElementById('insert').style.display = 'none';
+				document.getElementById('update').style.display = 'none';
+				document.getElementById('delete').style.display = 'block';
+			}
+      else if (dowhat == 'all'){
+				document.getElementById('browse').style.display = 'block';
+				document.getElementById('insert').style.display = 'block';
+				document.getElementById('update').style.display = 'block';
+				document.getElementById('delete').style.display = 'block';
+			}
+			else { //by default display browse
+				document.getElementById('browse').style.display = 'block';
+				document.getElementById('insert').style.display = 'none';
+				document.getElementById('update').style.display = 'none';
+				document.getElementById('delete').style.display = 'none';
+			}
+		}
+    function newOTA_UpdateAppliance() { showform('insert'); }
+    function updateOTA_UpdateAppliance(pid) { showform('update'); }
+    function deleteOTA_UpdateAppliance(pid) { showform ('delete'); }
+    function browseOTA_UpdateAppliance() { showform ('browse'); }
+    function showAll() { showform ('all'); }
+</script>
+</head>
+
+<body onload="browseOTA_UpdateAppliance()">
+<h1>OTA_UpdatesAppliances</h1>
+<nav>
+    [ <a href="users.html">Users</a> | <a href="appliances.html">Appliances</a> | <a href="ota_updates.html">OTA_Updates</a>  | <a href="customerservices.html">CustomerServices</a> | <a href="ota_updatesappliances.html">OTA_UpdatesAppliances</a>  ]
+    </nav>
+<div id="browse">
+<p><a href="#" onClick="showAll()">Display all forms</a> </p>
+<table border="1" cellpadding="5">
+  <tr>
+    <th><a href="#" onClick="newOTA_UpdateAppliance()">New</a></th>
+    <th></th>
+    <th>otaUpdatesUpdateID</th>
+    <th>appliancesApplianceID</th>
+
+  </tr>
+  <tr>
+    <td><a href="#" onClick="updateOTA_UpdateAppliance('this.otaUpdatesUpdateID')">Edit</a></td>
+    <td><a href="#" onclick="deleteOTA_UpdateAppliance('this.otaUpdatesUpdateID')">Delete</a></td>
+    <td>3001</td>
+    <td >2001</td>
+  </tr>
+  <tr>
+    <td><a href="#" onClick="updateOTA_UpdateAppliance('this.otaUpdatesUpdateID')">Edit</a></td>
+    <td><a href="#" onclick="deleteOTA_UpdateAppliance('this.otaUpdatesUpdateID')">Delete</a></td>
+    <td>3002</td>
+    <td>2001</td>
+  </tr>
+  <tr>
+    <td><a href="#" onClick="updateOTA_UpdateAppliance('this.otaUpdatesUpdateID')">Edit</a></td>
+    <td><a href="#" onclick="deleteOTA_UpdateAppliance('this.otaUpdatesUpdateID')">Delete</a></td>
+    <td>3002</td>
+    <td>2002</td>
+  </tr>
+  <tr>
+    <td><a href="#" onClick="updateOTA_UpdateAppliance('this.otaUpdatesUpdateID')">Edit</a></td>
+    <td><a href="#" onclick="deleteOTA_UpdateAppliance('this.otaUpdatesUpdateID')">Delete</a></td>
+    <td>3003</td>
+    <td>2003</td>
+  </tr>
+  <tr>
+    <td><a href="#" onClick="updateOTA_UpdateAppliance('this.otaUpdatesUpdateID')">Edit</a></td>
+    <td><a href="#" onclick="deleteOTA_UpdateAppliance('this.otaUpdatesUpdateID')">Delete</a></td>
+    <td>3003</td>
+    <td>2001</td>
+  </tr>
+  <tr>
+    <td><a href="#" onClick="updateOTA_UpdateAppliance('this.otaUpdatesUpdateID')">Edit</a></td>
+    <td><a href="#" onclick="deleteOTA_UpdateAppliance('this.otaUpdatesUpdateID')">Delete</a></td>
+    <td>3003</td>
+    <td>2002</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</div> <!-- browse -->
+<div id="insert">
+    <form method="POST" id="addOTA_UpdateAppliance">
+        <legend><strong>Add OTA_UpdateAppliance</strong></legend>
+          <fieldset class="fields">
+            <label> otaUpdatesUpdateID </label> <input type="text" name="otaUpdatesUpdateID">
+            <label> appliancesApplianceID </label> <input type="text" name="appliancesApplianceID">
+      </fieldset>
+          <input class="btn" type="submit" id="addOTA_UpdateAppliance" value="Add OTA_UpdateAppliance">
+          <input class="btn" type="button" value="cancel" onClick="browseOTA_UpdatesAppliances()">
+	</form> 
+</div><!-- insert -->
+<p>&nbsp;</p>
+<div id="update">
+    <form method="POST" id="UpdateOTA_UpdateAppliance">
+        <legend><strong>Update OTA_UpdateAppliance</strong></legend>
+          <fieldset class="fields">
+          <input type="hidden" name="otaUpdatesUpdateID" id="updateotaUpdatesUpdateID" value="3001">
+          <label> otaUpdatesUpdateID: </label> 3001
+            <label> appliancesApplianceID </label> <input type="text" name="appliancesApplianceID" value="2001">
+       </fieldset>
+          <input class="btn" type="submit" id="UpdateSaveOTA_UpdateAppliance" value="Save Update OTA_UpdateAppliance">
+          <input class="btn" type="button" value="cancel" onClick="browseOTA_UpdatesAppliances()">
+	</form> 
+</div><!-- update -->
+<p>&nbsp;</p>
+<div id="delete" style="display: block">
+  <form method="POST" id="deleteOTA_UpdateAppliance">
+      <legend><strong>Delete OTA_UpdateAppliance</strong></legend>
+          <fieldset class="fields">
+          <p>Are you sure you wish to delete the following?</p>
+          <input type="hidden" name="otaUpdatesUpdateID" id="deleteotaUpdatesUpdateID" value="3001">
+          <label><strong>otaUpdatesUpdateID: </strong></label> 3001
+            <label> <strong>appliancesApplianceId: </strong> </label> 2001
+            
+    </fieldset>
+    <input class="btn" type="submit" id="DeleteOTA_UpdateAppliance" value="Delete OTA_UpdateAppliance">
+          <input class="btn" type="button" value="cancel" onClick="browseOTA_UpdatesAppliances()">
+  </form> 
+</div><!-- delete -->
+
+</body>
+</html>

@@ -1,0 +1,144 @@
+<html>
+<head>
+<title>Appliances</title>
+<link href="style.css" rel="stylesheet" type="text/css" />
+<script language="JavaScript">
+		function showform(dowhat) {
+			/*
+			* four DIVS: browse, insert, update, delete
+			* this function sets one visible the others not
+			*/
+			if (dowhat == 'insert'){
+				document.getElementById('browse').style.display = 'none';
+				document.getElementById('insert').style.display = 'block';
+				document.getElementById('update').style.display = 'none';
+				document.getElementById('delete').style.display = 'none';
+			}
+			else if (dowhat == 'update'){
+				document.getElementById('browse').style.display = 'none';
+				document.getElementById('insert').style.display = 'none';
+				document.getElementById('update').style.display = 'block';
+				document.getElementById('delete').style.display = 'none';
+			}
+			else if (dowhat == 'delete'){
+				document.getElementById('browse').style.display = 'none';
+				document.getElementById('insert').style.display = 'none';
+				document.getElementById('update').style.display = 'none';
+				document.getElementById('delete').style.display = 'block';
+			}
+      else if (dowhat == 'all'){
+				document.getElementById('browse').style.display = 'block';
+				document.getElementById('insert').style.display = 'block';
+				document.getElementById('update').style.display = 'block';
+				document.getElementById('delete').style.display = 'block';
+			}
+			else { //by default display browse
+				document.getElementById('browse').style.display = 'block';
+				document.getElementById('insert').style.display = 'none';
+				document.getElementById('update').style.display = 'none';
+				document.getElementById('delete').style.display = 'none';
+			}
+		}
+    function newAppliance() { showform('insert'); }
+    function updateAppliance(pid) { showform('update'); }
+    function deleteAppliance(pid) { showform ('delete'); }
+    function browseAppliance() { showform ('browse'); }
+    function showAll() { showform ('all'); }
+</script>
+</head>
+
+<body onload="browseAppliance()">
+<h1>Appliances</h1>
+<nav>
+    [ <a href="users.html">Users</a> | <a href="appliances.html">Appliances</a> | <a href="ota_updates.html">OTA_Updates</a>  | <a href="customerservices.html">CustomerServices</a> | <a href="ota_updatesappliances.html">OTA_UpdatesAppliances</a>  ]
+    </nav>
+<div id="browse">
+<p><a href="#" onClick="showAll()">Display all forms</a> </p>
+<table border="1" cellpadding="5">
+  <tr>
+    <th><a href="#" onClick="newAppliance()">New</a></th>
+    <th></th>
+    <th>applianceID</th>
+    <th>userID</th>
+    <th>model</th>
+    <th>datePurchased</th>
+    <th>lastUpdated</th>
+  </tr>
+  <tr>
+    <td><a href="#" onClick="updateAppliance('this.applianceID')">Edit</a></td>
+    <td><a href="#" onclick="deleteAppliance('this.applianceID')">Delete</a></td>
+    <td align="right" >2001</td>
+    <td >1001</td>
+    <td align="right" >SmartOvenx100</td>
+    <td>2021-03-15</td>
+    <td>2023-03-21</td>
+  </tr>
+  <tr>
+    <td><a href="#" onClick="updateAppliance('this.applianceID')">Edit</a></td>
+    <td><a href="#" onclick="deleteAppliance('this.applianceID')">Delete</a></td>
+    <td align="right" >2002</td>
+    <td>1002</td>
+    <td align="right" >CleanRobotV2</td>
+    <td >2022-06-09</td>
+    <td>2023-04-11</td>
+  </tr>
+  <tr>
+    <td><a href="#" onClick="updateAppliance('this.applianceID')">Edit</a></td>
+    <td><a href="#" onclick="deleteAppliance('this.applianceID')">Delete</a></td>
+    <td>2003</td>
+    <td>1003</td>
+    <td align="right" >ClimateHubPro</td>
+    <td>2023-01-20</td>
+    <td>2023-04-03</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</div> <!-- browse -->
+<div id="insert">
+    <form method="POST" id="addAppliance">
+        <legend><strong>Add Appliance</strong></legend>
+          <fieldset class="fields">
+            <label> applianceID </label> <input type="text" name="applianceID">
+            <label> userID </label> <input type="text" name="userID">
+            <label> model </label> <input type="text" name="mdoel">
+            <label> datePurchased </label> <input type="text" name="datePurchased">
+            <label> lastUpdated </label> <input type="text" name="lastUpdated">
+      </fieldset>
+          <input class="btn" type="submit" id="addAppliance" value="Add Appliance">
+          <input class="btn" type="button" value="cancel" onClick="browseAppliances()">
+	</form> 
+</div><!-- insert -->
+<p>&nbsp;</p>
+<div id="update">
+    <form method="POST" id="UpdateAppliance">
+        <legend><strong>Update Appliance</strong></legend>
+          <fieldset class="fields">
+          <input type="hidden" name="applianceID" id="updateapplianceID" value="2001">
+          <label> applianceID: </label> 2001
+            <label> userID </label> <input type="text" name="userID" value="1001">
+            <label> model </label> <input type="text" name="model" value="SmartOvenx100">
+            <label> datePurchased </label> <input type="text" name="datePurchased" value="2021-03-15">
+            <label> lastUpdated </label> <input type="text" name="lastUpdated" value="2023-03-21">
+      </fieldset>
+          <input class="btn" type="submit" id="UpdateSaveAppliance" value="Save Update Appliance">
+          <input class="btn" type="button" value="cancel" onClick="browseAppliances()">
+	</form> 
+</div><!-- update -->
+<p>&nbsp;</p>
+<div id="delete" style="display: block">
+  <form method="POST" id="deleteAppliance">
+      <legend><strong>Delete Appliance</strong></legend>
+          <fieldset class="fields">
+          <p>Are you sure you wish to delete the following?</p>
+          <input type="hidden" name="applianceID" id="deleteapplianceID" value="2001">
+          <label><strong>applianceID: </strong></label> 2001
+            <label> <strong>model: </strong> </label> SmartOvenx100
+            
+    </fieldset>
+    <input class="btn" type="submit" id="DeleteAppliance" value="Delete Appliance">
+          <input class="btn" type="button" value="cancel" onClick="browseAppliances()">
+  </form> 
+</div><!-- delete -->
+
+</body>
+</html>

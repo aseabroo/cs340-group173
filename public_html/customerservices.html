@@ -1,0 +1,158 @@
+<html>
+<head>
+<title>Customer Services</title>
+<link href="style.css" rel="stylesheet" type="text/css" />
+<script language="JavaScript">
+		function showform(dowhat) {
+			/*
+			* four DIVS: browse, insert, update, delete
+			* this function sets one visible the others not
+			*/
+			if (dowhat == 'insert'){
+				document.getElementById('browse').style.display = 'none';
+				document.getElementById('insert').style.display = 'block';
+				document.getElementById('update').style.display = 'none';
+				document.getElementById('delete').style.display = 'none';
+			}
+			else if (dowhat == 'update'){
+				document.getElementById('browse').style.display = 'none';
+				document.getElementById('insert').style.display = 'none';
+				document.getElementById('update').style.display = 'block';
+				document.getElementById('delete').style.display = 'none';
+			}
+			else if (dowhat == 'delete'){
+				document.getElementById('browse').style.display = 'none';
+				document.getElementById('insert').style.display = 'none';
+				document.getElementById('update').style.display = 'none';
+				document.getElementById('delete').style.display = 'block';
+			}
+      else if (dowhat == 'all'){
+				document.getElementById('browse').style.display = 'block';
+				document.getElementById('insert').style.display = 'block';
+				document.getElementById('update').style.display = 'block';
+				document.getElementById('delete').style.display = 'block';
+			}
+			else { //by default display browse
+				document.getElementById('browse').style.display = 'block';
+				document.getElementById('insert').style.display = 'none';
+				document.getElementById('update').style.display = 'none';
+				document.getElementById('delete').style.display = 'none';
+			}
+		}
+    function newCustomerService() { showform('insert'); }
+    function updateCustomerService(pid) { showform('update'); }
+    function deleteCustomerService(pid) { showform ('delete'); }
+    function browseCustomerService() { showform ('browse'); }
+    function showAll() { showform ('all'); }
+</script>
+</head>
+
+<body onload="browseCustomerService()">
+<h1>Customer Services</h1>
+<nav>
+    [ <a href="users.html">Users</a> | <a href="appliances.html">Appliances</a> | <a href="ota_updates.html">OTA_Updates</a>  | <a href="customerservices.html">CustomerServices</a> | <a href="ota_updatesappliances.html">OTA_UpdatesAppliances</a>  ]
+    </nav>
+<div id="browse">
+<p><a href="#" onClick="showAll()">Display all forms</a> </p>
+<table border="1" cellpadding="5">
+  <tr>
+    <th><a href="#" onClick="newCustomerService()">New</a></th>
+    <th></th>
+    <th>serviceID</th>
+    <th>userID</th>
+    <th>applianceID</th>
+    <th>issueDescription</th>
+    <th>dateReported</th>
+    <th>resolutionStatus</th>
+  </tr>
+  <tr>
+    <td><a href="#" onClick="updateCustomerService('this.serviceID')">Edit</a></td>
+    <td><a href="#" onclick="deleteCustomerService('this.serviceID')">Delete</a></td>
+    <td align="right" >4001</td>
+    <td >1001</td>
+    <td align="right" >2001</td>
+    <td>"Oven heating irregularly"</td>
+    <td>2023-03-25</td>
+    <td>resolved</td>
+  </tr>
+  <tr>
+    <td><a href="#" onClick="updateCustomerService('this.serviceID')">Edit</a></td>
+    <td><a href="#" onclick="deleteCustomerService('this.serviceID')">Delete</a></td>
+    <td align="right" >4002</td>
+    <td>1002</td>
+    <td align="right" >2002</td>
+    <td >"Robot misses spots while cleaning"</td>
+    <td>2023-04-12</td>
+    <td>pending</td>
+  </tr>
+  <tr>
+    <td><a href="#" onClick="updateCustomerService('this.serviceID')">Edit</a></td>
+    <td><a href="#" onclick="deleteCustomerService('this.serviceID')">Delete</a></td>
+    <td>4003</td>
+    <td>1003</td>
+    <td align="right" ></td>
+    <td>"Climate Hub app syncing issues"</td>
+    <td>2023-04-05</td>
+    <td>escalated</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</div> <!-- browse -->
+<div id="insert">
+    <form method="POST" id="addCustomerService">
+        <legend><strong>Add Customer Service</strong></legend>
+          <fieldset class="fields">
+            <label> serviceID </label> <input type="text" name="serviceID">
+            <label> userID </label> <input type="text" name="userID">
+            <label> applianceID </label> <input type="text" name="applianceID">
+            <label> issueDescription </label> <input type="text" name="issueDescription">
+            <label> dateReported </label> <input type="text" name="dateReported">
+            <label> resolutionStatus </label> <select name="resolutionStatus">
+                <option value="0">&nbsp;</option>
+                <option value="1">pending</option>
+                <option value="2">resolved</option>
+                <option value="3">escalated</option>
+      </fieldset>
+          <input class="btn" type="submit" id="addCustomerService" value="Add Customer Service">
+          <input class="btn" type="button" value="cancel" onClick="browseCustomerServices()">
+	</form> 
+</div><!-- insert -->
+<p>&nbsp;</p>
+<div id="update">
+    <form method="POST" id="UpdateCustomerService">
+        <legend><strong>Update Customer Service</strong></legend>
+          <fieldset class="fields">
+          <input type="hidden" name="serviceID" id="updateserviceID" value="3001">
+          <label> serviceID: </label> 4001
+            <label> userID </label> <input type="text" name="userID" value="1001">
+            <label> applianceID </label> <input type="text" name="applianceID" value="2001">
+            <label> issueDescription </label> <input type="text" name="issueDescription" value="Oven heating irregularly">
+            <label> dateReported </label> <input type="text" name="dateReported" value="2023-03-25">
+            <label> resolutionStatus </label> <select name="resolutionStatus">
+                <option value="0">&nbsp;</option>
+                <option value="1" >pending</option>
+                <option value="2" selected>resolved</option>
+                <option value="3">escalated</option>
+       </fieldset>
+          <input class="btn" type="submit" id="UpdateSaveCustomerService" value="Save Update CustomerService">
+          <input class="btn" type="button" value="cancel" onClick="browseCustomerServices()">
+	</form> 
+</div><!-- update -->
+<p>&nbsp;</p>
+<div id="delete" style="display: block">
+  <form method="POST" id="deleteCustomerService">
+      <legend><strong>Delete Customer Service</strong></legend>
+          <fieldset class="fields">
+          <p>Are you sure you wish to delete the following?</p>
+          <input type="hidden" name="serviceID" id="deleteserviceID" value="4001">
+          <label><strong>serviceID: </strong></label> 4001
+            <label> <strong>userID: </strong> </label> 1001
+            
+    </fieldset>
+    <input class="btn" type="submit" id="DeleteCustomerService" value="Delete CustomerService">
+          <input class="btn" type="button" value="cancel" onClick="browseCustomerServices()">
+  </form> 
+</div><!-- delete -->
+
+</body>
+</html>
