@@ -61,10 +61,16 @@ INSERT INTO CustomerServices (userID, issueDescription, resolutionStatus, dateRe
 
 -- UPDATE Statement with NULLable relationship
 
---  Update OTA Update record and set applianceID to NULL (assuming the relationship can be nullified)
-UPDATE OTA_UpdatesAppliances
-SET appliancesApplianceID = NULL
+
+--  Update CustomerServices and set applianceID to NULL 
+UPDATE CustomerServices
+SET applianceID = NULL
 WHERE otaUpdatesUpdateID = :otaUpdatesUpdateIDInput AND appliancesApplianceID = :appliancesApplianceIDInput;
+
+UPDATE CustomerServices 
+SET applianceID = NULL 
+WHERE serviceID = :serviceIDInput;
+
 
 -- Update a user's details
 UPDATE Users

@@ -103,7 +103,13 @@
         <legend><strong>Add OTA_Update</strong></legend>
           <fieldset class="fields">
             <label> updateID </label> <input type="text" name="updateID">
-            <label> applianceID </label> <input type="text" name="applianceID">
+            <label> applianceID </label>
+            <label> applianceID </label><select name="applianceID">
+              <option value="2001">2001</option>
+              <option value="2002">2002</option>
+              <option value="2003">2003</option>
+              <!-- Add more options as needed -->
+            </select>
             <label> updateVersion </label> <input type="text" name="updateVersion">
             <label> releaseDate </label> <input type="text" name="releaseDate">
             <label> updateSize </label> <input type="text" name="updateSize">
@@ -128,11 +134,12 @@
             <label> updateVersion </label> <input type="text" name="updateVersion" value="v2.1.4">
             <label> releaseDate </label> <input type="text" name="releaseDate" value="2023-03-21">
             <label> updateSize </label> <input type="text" name="updateSize" value="150">
-            <label> status </label> <select name="status">
-                <option value="0">&nbsp;</option>
-                <option value="1" selected>pending</option>
-                <option value="2">resolved</option>
-                <option value="3">escalated</option>
+            <label> applianceID </label>
+            <select name="applianceID" value="2001">
+              <option value="2001" selected>2001</option>
+              <option value="2002">2002</option>
+              <option value="2003">2003</option>
+            </select>
        </fieldset>
           <input class="btn" type="submit" id="UpdateSaveOTA_Update" value="Save Update OTA_Update">
           <input class="btn" type="button" value="cancel" onClick="browseOTA_Updates()">
