@@ -62,7 +62,7 @@ CREATE OR REPLACE TABLE OTA_Updates (
     updateVersion varchar(20) NULL,
     releaseDate DATE NULL,
     updateSize int NULL,
-    status varchar(45) NULL,
+    status ENUM('completed','pending','resolved','escalated') NULL,
     PRIMARY KEY (updateID)
 );
 ALTER TABLE Users AUTO_INCREMENT = 3000; --incremented to prevent overlap with other iDs
