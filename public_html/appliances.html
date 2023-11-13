@@ -40,6 +40,29 @@
 				document.getElementById('delete').style.display = 'none';
 			}
 		}
+    
+
+    // JavaScript function for filtering the appliance list
+    function filterAppliances() {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("searchBox");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("applianceTable");
+      tr = table.getElementsByTagName("tr");
+
+      for (i = 1; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[4]; // Index 4 is for the 'model' column
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }       
+      }
+    }
+
     function newAppliance() { showform('insert'); }
     function updateAppliance(pid) { showform('update'); }
     function deleteAppliance(pid) { showform ('delete'); }
@@ -55,15 +78,56 @@
     </nav>
 <div id="browse">
 <p><a href="#" onClick="showAll()">Display all forms</a> </p>
-<table border="1" cellpadding="5">
+
+<!-- Search input field -->
+ <input type="text" id="searchBox" onkeyup="filterAppliances()" placeholder="Search by Model...">
+
+
+<form id="searchAppliances" action="/search-appliances" method="get">
+  <div class=""search-field">
+    <label for="applianceIdInput">Appliance ID:</label>
+    <select id="applianceIdInput" name="applianceID">
+      <option value="2001">2001</option>
+      <option value="2002">2002</option>
+      <option value="2003">2003</option>
+        <!-- Dynamically populated options will go here -->
+        <!-- Example: <option value="1">1</option> -->
+    </select></div>
+  <div class="search-field">
+      <label for="modelInput">Model:</label>
+      <select id="modelInput" name="model">
+        <option value="SmartOvenx100">SmartOvenx100</option>
+        <option value="CleanRobotV2">CleanRobotV2</option>
+        <option value="ClimateHubPro">ClimateHubPro</option>
+        <!-- Dynamically populated options will go here -->
+        <!-- Example: <option value="ModelA">Model A</option> -->
+    </select> </div>
+  
+  <div class="search-field">
+      <label for="datePurchasedInput">Date Purchased:</label>
+      <input type="date" id="datePurchasedInput" name="datePurchased" placeholder="YYYY-MM-DD">
+  </div>
+  
+  <div class="search-field">
+      <label for="lastUpdatedInput">Last Updated:</label>
+      <input type="date" id="lastUpdatedInput" name="lastUpdated" placeholder="YYYY-MM-DD">
+  </div>
+  
+  <div class="search-field">
+      <button type="submit">Search</button>
+  </div>
+</form>
+
+
+<table border="1" cellpadding="5" id="applianceTable">
   <tr>
     <th><a href="#" onClick="newAppliance()">New</a></th>
     <th></th>
-    <th>applianceID</th>
-    <th>userID</th>
-    <th>model</th>
-    <th>datePurchased</th>
-    <th>lastUpdated</th>
+    <th>Appliance ID</th>
+    <th>User ID</th>
+    <th>Model</th>
+    <th>Date Purchased</th>
+    <th>Last Updated</th>
   </tr>
   <tr>
     <td><a href="#" onClick="updateAppliance('this.applianceID')">Edit</a></td>
@@ -99,11 +163,20 @@
     <form method="POST" id="addAppliance">
         <legend><strong>Add Appliance</strong></legend>
           <fieldset class="fields">
-            <label> applianceID </label> <input type="text" name="applianceID">
-            <label> userID </label> <input type="text" name="userID">
-            <label> model </label> <input type="text" name="mdoel">
-            <label> datePurchased </label> <input type="text" name="datePurchased">
-            <label> lastUpdated </label> <input type="text" name="lastUpdated">
+            <label> User ID </label> 
+            <select name="userID">
+              <option value="1001">1001</option>
+              <option value="1002">1002</option>
+              <option value="1003">1003</option>
+            </select>
+            <label> Model </label> <select id="modelInput" name="model">
+              <option value="SmartOvenx100">SmartOvenx100</option>
+              <option value="CleanRobotV2">CleanRobotV2</option>
+              <option value="ClimateHubPro">ClimateHubPro</option>
+              <!-- Dynamically populated options will go here -->
+              <!-- Example: <option value="ModelA">Model A</option> -->
+          </select><label>Date Purchased </label> <input type="date" name="datePurchased">
+            <label> Last Updated </label> <input type="date" name="lastUpdated">
       </fieldset>
           <input class="btn" type="submit" id="addAppliance" value="Add Appliance">
           <input class="btn" type="button" value="cancel" onClick="browseAppliances()">
@@ -115,11 +188,22 @@
         <legend><strong>Update Appliance</strong></legend>
           <fieldset class="fields">
           <input type="hidden" name="applianceID" id="updateapplianceID" value="2001">
-          <label> applianceID: </label> 2001
-            <label> userID </label> <input type="text" name="userID" value="1001">
-            <label> model </label> <input type="text" name="model" value="SmartOvenx100">
-            <label> datePurchased </label> <input type="text" name="datePurchased" value="2021-03-15">
-            <label> lastUpdated </label> <input type="text" name="lastUpdated" value="2023-03-21">
+          <label> Appliance ID: </label> 2001
+          <label> User ID </label> 
+          <select name="userID">
+            <option value="1001">1001</option>
+            <option value="1002">1002</option>
+            <option value="1003">1003</option>
+          </select>
+           <label> Model </label> 
+           <select id="modelInput" name="model">
+            <option value="SmartOvenx100">SmartOvenx100</option>
+            <option value="CleanRobotV2">CleanRobotV2</option>
+            <option value="ClimateHubPro">ClimateHubPro</option>
+            <!-- Dynamically populated options will go here -->
+            <!-- Example: <option value="ModelA">Model A</option> -->
+        </select> <label> Date Purchased </label> <input type="date" name="datePurchased" value="2021-03-15">
+            <label> Last Updated </label> <input type="date" name="lastUpdated" value="2023-03-21">
       </fieldset>
           <input class="btn" type="submit" id="UpdateSaveAppliance" value="Save Update Appliance">
           <input class="btn" type="button" value="cancel" onClick="browseAppliances()">
@@ -132,8 +216,8 @@
           <fieldset class="fields">
           <p>Are you sure you wish to delete the following?</p>
           <input type="hidden" name="applianceID" id="deleteapplianceID" value="2001">
-          <label><strong>applianceID: </strong></label> 2001
-            <label> <strong>model: </strong> </label> SmartOvenx100
+          <label><strong>Appliance ID: </strong></label> 2001
+            <label> <strong>Model: </strong> </label> SmartOvenx100
             
     </fieldset>
     <input class="btn" type="submit" id="DeleteAppliance" value="Delete Appliance">

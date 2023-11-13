@@ -47,7 +47,7 @@ CREATE OR REPLACE TABLE CustomerServices (
     resolutionStatus ENUM('resolved', 'pending', 'escalated'),
     dateReported DATE NOT NULL,
     userID int NOT NULL,
-    applianceID int,
+    applianceID int NULL,
     PRIMARY KEY(serviceID),
     INDEX fk_customerServices_Appliances1_idx (applianceID ASC) VISIBLE,
     INDEX fk_customerServices_Users1_idx (userID ASC) VISIBLE,
