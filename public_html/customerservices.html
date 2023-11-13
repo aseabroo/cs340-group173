@@ -58,12 +58,12 @@
   <tr>
     <th><a href="#" onClick="newCustomerService()">New</a></th>
     <th></th>
-    <th>serviceID</th>
-    <th>userID</th>
-    <th>applianceID</th>
-    <th>issueDescription</th>
-    <th>dateReported</th>
-    <th>resolutionStatus</th>
+    <th>Service ID</th>
+    <th>User ID</th>
+    <th>Appliance ID</th>
+    <th>Issue Description</th>
+    <th>Date Reported</th>
+    <th>Resolution Status</th>
   </tr>
   <tr>
     <td><a href="#" onClick="updateCustomerService('this.serviceID')">Edit</a></td>
@@ -102,16 +102,27 @@
     <form method="POST" id="addCustomerService">
         <legend><strong>Add Customer Service</strong></legend>
           <fieldset class="fields">
-            <label> serviceID </label> <input type="text" name="serviceID">
-            <label> userID </label> <input type="text" name="userID">
-            <label> applianceID </label> <input type="text" name="applianceID">
-            <label> issueDescription </label> <input type="text" name="issueDescription">
-            <label> dateReported </label> <input type="text" name="dateReported">
-            <label> resolutionStatus </label> <select name="resolutionStatus">
+            <label> User ID </label>
+          <select name="userID" value="1001">
+            <option value="1001" selected>1001</option>
+            <option value="1002">1002</option>
+            <option value="1003">1003</option>
+          </select>
+            <label> Appliance ID </label> 
+            <select name="applianceID" value="2001">
+              <option value="0">&nbsp;</option>
+              <option value="2001" selected>2001</option>
+              <option value="2002">2002</option>
+              <option value="2003">2003</option>
+            </select>
+            <label> Issue Description </label> <input type="text" name="issueDescription">
+            <label> Date Reported </label> <input type="date" name="dateReported">
+            <label> Resolution Status </label> <select name="resolutionStatus">
                 <option value="0">&nbsp;</option>
                 <option value="1">pending</option>
                 <option value="2">resolved</option>
                 <option value="3">escalated</option>
+                </select>
       </fieldset>
           <input class="btn" type="submit" id="addCustomerService" value="Add Customer Service">
           <input class="btn" type="button" value="cancel" onClick="browseCustomerServices()">
@@ -123,12 +134,23 @@
         <legend><strong>Update Customer Service</strong></legend>
           <fieldset class="fields">
           <input type="hidden" name="serviceID" id="updateserviceID" value="3001">
-          <label> serviceID: </label> 4001
-            <label> userID </label> <input type="text" name="userID" value="1001">
-            <label> applianceID </label> <input type="text" name="applianceID" value="2001">
-            <label> issueDescription </label> <input type="text" name="issueDescription" value="Oven heating irregularly">
-            <label> dateReported </label> <input type="text" name="dateReported" value="2023-03-25">
-            <label> resolutionStatus </label> <select name="resolutionStatus">
+          <label> Service ID: </label> 4001
+            <label> User ID </label> 
+            <select name="userID" value="1001">
+              <option value="1001" selected>1001</option>
+              <option value="1002">1002</option>
+              <option value="1003">1003</option>
+            </select>
+            <label> Appliance ID </label> 
+            <select name="applianceID" value="2001">
+              <option value="0">&nbsp;</option>
+              <option value="2001" selected>2001</option>
+              <option value="2002">2002</option>
+              <option value="2003">2003</option>
+            </select>
+            <label> Issue Description </label> <input type="text" name="issueDescription" value="Oven heating irregularly">
+            <label> Date Reported </label> <input type="date" name="dateReported" value="2023-03-25">
+            <label> Resolution Status </label> <select name="resolutionStatus">
                 <option value="0">&nbsp;</option>
                 <option value="1" >pending</option>
                 <option value="2" selected>resolved</option>
@@ -145,8 +167,8 @@
           <fieldset class="fields">
           <p>Are you sure you wish to delete the following?</p>
           <input type="hidden" name="serviceID" id="deleteserviceID" value="4001">
-          <label><strong>serviceID: </strong></label> 4001
-            <label> <strong>userID: </strong> </label> 1001
+          <label><strong>Service ID: </strong></label> 4001
+            <label> <strong>User ID: </strong> </label> 1001
             
     </fieldset>
     <input class="btn" type="submit" id="DeleteCustomerService" value="Delete CustomerService">
