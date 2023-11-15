@@ -12,89 +12,122 @@
 
 --colon (:) indicates variable names
 
--- SELECT Queries
+----------------------------------------------------------
+-- Users
+----------------------------------------------------------
 
--- 1. Fetch all Users
+-- Select statements for Users
 SELECT * FROM Users;
 
--- 2. Fetch a specific appliance by ID
-SELECT * FROM Appliances WHERE applianceID = :applianceIDInput;
-
--- 3. Fetch all OTA updates available for an appliance
-SELECT ota.* FROM OTA_Updates ota
-JOIN OTA_UpdatesAppliances oua ON ota.updateID = oua.otaUpdatesUpdateID
-WHERE oua.applianceID = :applianceIDInput;
-
--- 4. Fetch customer service records with a filter (e.g., status)
-SELECT * FROM CustomerServices WHERE status = :statusInput;
-
--- 5. Fetch all appliances for a specific user
-SELECT a.* 
-FROM Appliances a
-JOIN Users u ON u.userID = a.userID
-WHERE u.userID = :userIDInput;
-
--- 6. Select all customer service records for a specific appliance
-SELECT cs.*
-FROM CustomerServices cs
-JOIN Appliances a ON cs.applianceID = a.applianceID
-WHERE a.applianceID = :applianceIDInput;
-
-
-
--- INSERT Statements
-
--- 1. Insert New User
+-- Add new User
 INSERT INTO Users (email, name, address, phone) VALUES ( :emailInput,:nameInput, :addressInput, :phoneInput );
 
--- 2. Insert New Appliance
-INSERT INTO Appliances (model, datePurchased, lastupdated, userID) VALUES (:modelInput, :datePurchasedInput, :lastUpdatedInput, :userIDInput);
-
--- 3. Insert New OTA Update
-INSERT INTO OTA_Updates (updateVersion, releaseDate, updateSize, status) VALUES (:updateVersionInput, :releaseDateInput, :updateSizeInput, :statusInput);
-
--- 4. Link Appliance to OTA Update (Many-to-Many)
-INSERT INTO OTA_UpdatesAppliances (otaUpdatesUpdateID, appliancesAppliancesID) VALUES (:otaUpdatesUpdateIDInput, :appliancesAppliancesIDInput);
-
--- 5. Insert New Customer Service Record
-INSERT INTO CustomerServices (userID, issueDescription, resolutionStatus, dateReported, applianceID) VALUES (:userIDInput, :issueDescriptionInput, :resolutionStatusInput, :dateReportedInput, :applianceIDInput );
-
--- UPDATE Statement with NULLable relationship
-
-
---  Update CustomerServices and set applianceID to NULL 
-UPDATE CustomerServices
-SET applianceID = NULL
-WHERE otaUpdatesUpdateID = :otaUpdatesUpdateIDInput AND appliancesApplianceID = :appliancesApplianceIDInput;
-
-UPDATE CustomerServices 
-SET applianceID = NULL 
-WHERE serviceID = :serviceIDInput;
-
-
--- Update a user's details
-UPDATE Users
-SET name = :nameInput, email = :emailInput, phone = :phoneInput
+-- Edit User 
+UPDATE Users 
+SET name=:nameInput, email=:emailInput, address=:addressInput, phone=:phoneInput
 WHERE userID = :userIDInput;
 
--- Delete a user and all related records in dependent tables (CASCADE delete)
-DELETE FROM Users
-WHERE userID = :userIDInput;
+-- Delete User
+DELETE FROM Users WHERE userID=:userIDInput;
 
+----------------------------------------------------------
+-- Appliances
+----------------------------------------------------------
 
--- DELETE Statement (Many-to-Many Relationship)
+-- Select statements for Appliances and dropdowns
+SELECT * FROM Appliances;
+SELECT applianceID FROM Appliances;
+SELECT model FROM Appliances;
+SELECT datePurchased FROM Appliances;
+SELECT lastUpdated FROM Appliances;
 
--- Delete a link between an Appliance and OTA Update
-DELETE FROM OTA_UpdatesAppliances
-WHERE otaUpdatesupdateID = :otaUpdatesUpdateIDInput AND appliancesapplianceID = :appliancesApplianceIDInput;
+-- Search Queries
+SELECT * FROM Appliances WHERE applianceID = :applianceIDInput;
+SELECT * FROM Appliances WHERE model = :modelInput;
+SELECT * FROM Appliances WHERE applianceID = :applianceIDInput AND model = :modelInput AND datePurchased = :datePurchasedInput AND lastUpdated = :lastUpdatedInput; 
 
--- DYNAMIC DROP-DOWN/Search Query
+-- Add new Appliance
+INSERT INTO Appliances (model, datePurchased, lastupdated, userID) 
+VALUES (:modelInput, :datePurchasedInput, :lastUpdatedInput, :userIDInput);
 
--- Dynamic search for Appliances by model, datePurchased, or lastUpdated.
+-- Edit Appliance
+UPDATE Appliances 
+SET userID = :userIDInput, model=:modelInput, datePurchased=:datePurchasedInput, lastUpdated=:lastUpdatedInput
+WHERE applianceID = :applianceIDInput;
+
+-- Delete Appliance (deletion will cascade delete the M:N)
+DELETE FROM Appliances WHERE applianceID = :applianceIDInput;
+
+-- scrapped functionality
 SELECT applianceID, model
 FROM Appliances
 WHERE model LIKE :modelInput OR 
       DATE_FORMAT(datePurchased, '%Y-%m-%d') LIKE :datePurchasedInput OR 
       DATE_FORMAT(lastUpdated, '%Y-%m-%d') LIKE :lastUpdatedInput
 ORDER BY model;
+
+----------------------------------------------------------
+-- OTA_Updates
+----------------------------------------------------------
+
+-- Select statements for display and dropdowns
+SELECT * FROM OTA_Updates;
+SELECT applianceID FROM OTA_Updates;
+
+-- Add new update
+INSERT INTO OTA_Updates (updateVersion, releaseDate, updateSize, status) VALUES (:updateVersionInput, :releaseDateInput, :updateSizeInput, :statusInput);
+
+-- Edit update
+UPDATE OTA_Updates
+SET updateVersion=:updateVersionInput, releaseDate=:releaseDateInput, updateSize=:updateSizeInput
+WHERE updateID=:updateIDInput;
+
+-- Delete update
+DELETE FROM OTA_Updates WHERE updateID=:updateIDInput;
+
+----------------------------------------------------------
+-- CustomerServices
+----------------------------------------------------------
+
+-- Select statements for display and dropdown
+SELECT * FROM CustomerServices;
+SELECT COLUMN_TYPE FROM INFORMATION.SCHEMA.COLUMNS WHERE TABLE_NAME = OTA_Updates AND COLUMN_NAME = status;
+SELECT applianceID FROM CustomerServices;
+SELECT userID FROM CustomerServices;
+
+-- add new ticket
+INSERT INTO CustomerServices (userID, issueDescription, resolutionStatus, dateReported, applianceID) VALUES (:userIDInput, :issueDescriptionInput, :resolutionStatusInput, :dateReportedInput, :applianceIDInput );
+
+-- edit ticket (can be used to NULL the applianceID, terminating the connection to appliances)
+UPDATE CustomerServices
+SET userID=:userIDInput, applianceID=:applianceIDInput, issueDescription=:issueDescriptionInput, dateReported=:datePurchasedInput, resolutionStatus=:resolutionStatusInput
+WHERE serviceID=:serviceIDInput;
+
+UPDATE CustomerServices
+SET applianceID = NULL
+WHERE otaUpdatesUpdateID = :otaUpdatesUpdateIDInput AND appliancesApplianceID = :appliancesApplianceIDInput;
+
+-- delete ticket
+DELETE FROM CustomerServices WHERE serviceID=:serviceIDInput;
+
+----------------------------------------------------------
+-- OTA_UpdatesAppliances
+----------------------------------------------------------
+
+-- select statements for display and dropdown
+SELECT * FROM OTA_UpdatesAppliances
+SELECT otaUpdatesUpdateID FROM OTA_UpdatesAppliances;
+SELECT appliancesApplianceID FROM OTA_UpdatesAppliances;
+
+-- add new 
+INSERT INTO OTA_UpdatesAppliances (otaUpdatesUpdateID, appliancesAppliancesID) VALUES (:otaUpdatesUpdateIDInput, :appliancesAppliancesIDInput);
+
+-- edit 
+UPDATE OTA_UpdatesAppliances
+SET otaUpdatesUpdateID=:otaUpdatesUpdateIDInput1, appliancesApplianceID=:appliancesApplianceIDInput1
+WHERE otaUpdatesUpdateID=:otaUpdatesUpdateIDInput AND appliancesApplianceID=:appliancesApplianceIDInput;
+
+-- delete
+DELETE FROM OTA_UpdatesAppliances WHERE otaUpdatesUpdateID=:otaUpdatesUpdateIDInput AND appliancesApplianceID=:appliancesApplianceIDInput;
+
 
