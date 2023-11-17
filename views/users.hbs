@@ -66,7 +66,7 @@
     {{/each}}
   </tr>
   {{#each usersData}}
-  <tr data-value="{{this.userID}}">
+  <tr data-value={{this.userID}}>
     <td><a href="#" onClick="updateUser({{this.userID}})">Edit</a></td>
     <td><buton onclick="deleteUser({{this.userID}})">Delete</buton></td>
     <td align="right" >{{this.userID}}</td>
@@ -77,7 +77,7 @@
   </tr>
   {{/each}}
 </table>
-<script src="./js/delete_person.js"></script>
+<script src="./js/delete_user.js"></script>
 
 <p>&nbsp;</p>
 </div> <!-- browse -->
@@ -104,7 +104,7 @@
         <label for="inputName">name: </label>
         <select name="inputName" id="mySelect">
             <option value="test">Select a Person</option>
-            {{#each data}}
+            {{#each usersData}}
             <option value="{{this.userID}}">{{this.name}}</option>
             {{/each}}
         </select>

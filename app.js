@@ -91,9 +91,9 @@ app.post('/add-user-ajax', function(req,res){
     })
 });
 
-app.delete('/delete-user-ajax/', function(req,res,next){
+app.delete('/delete-user-ajax', function(req,res,next){
     let data = req.body;
-    let userID = parseInt(data.userID);
+    let userID = parseInt(data.id);
     let deleteUser = `DELETE FROM Users WHERE userID = ?`;
   
           // Run the 1st query
@@ -112,18 +112,16 @@ app.delete('/delete-user-ajax/', function(req,res,next){
   app.put('/put-user-ajax', function(req,res,next){
     let data = req.body;
   
-    let homeworld = parseInt(data.homeworld);
-    let person = parseInt(data.fullname);
 
     let name = parseInt(data.name);
     let email = parseInt(data.email);
     let address = parseInt(data.address);
     let phone = parseInt(data.phone);
   
-    let updateUserQuery = `UPDATE Users SET email = ?, address = ?, phone = ? WHERE Users.name = ?`
+    let updateUserQuery = `UPDATE Users SET email = ?, address = ?, phone = ? WHERE userID = ?`
   
           // Run the 1st query
-          db.pool.query(updateUserQuery, [email, address, phone], function(error, rows, fields){
+          db.pool.query(updateUserQuery, [email, address, phone, name], function(error, rows, fields){
               if (error) {
   
               // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
