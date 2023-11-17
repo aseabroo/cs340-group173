@@ -1,7 +1,8 @@
+<!DOCTYPE html>
 <html>
 <head>
 <title>Users</title>
-<link href="style.css" rel="stylesheet" type="text/css" />
+<link href="/style.css" rel="stylesheet" type="text/css" />
 <script language="JavaScript">
 		function showform(dowhat) {
 			/*
@@ -50,67 +51,80 @@
 <body onload="browseUser()">
 <h1>Users</h1>
 <nav>
-    [ <a href="users.html">Users</a> | <a href="appliances.html">Appliances</a> | <a href="ota_updates.html">OTA_Updates</a>  | <a href="customerservices.html">CustomerServices</a> | <a href="ota_updatesappliances.html">OTA_UpdatesAppliances</a>  ]
+    [ <a href="/users">Users</a> | <a href="appliances.html">Appliances</a> | <a href="ota_updates.html">OTA_Updates</a>  | <a href="customerservices.html">CustomerServices</a> | <a href="ota_updatesappliances.html">OTA_UpdatesAppliances</a>  ]
     </nav>
 <div id="browse">
 <p><a href="#" onClick="showAll()">Display all forms</a> </p>
-<!--
-<table border="1" cellpadding="5">
+
+<!-- Handlebars templateing to create the table to users in the database -->
+<table border="1" cellpadding="5" id="userTable">
   <tr>
     <th><a href="#" onClick="newUser()">New</a></th>
     <th></th>
-    <th>userID</th>
-    <th>name</th>
-    <th>email</th>
-    <th>address</th>
-    <th>phone</th>
+    {{#each usersData.[0]}}
+        <th>{{@key}}</th>
+    {{/each}}
   </tr>
-  <tr>
-    <td><a href="#" onClick="updateUser('this.userID')">Edit</a></td>
-    <td><a href="#" onclick="deleteUser('this.userID')">Delete</a></td>
-    <td align="right" >1001</td>
-    <td >John Doe</td>
-    <td align="right" >john.doe@example.com</td>
-    <td>123 Oak Street</td>
-    <td>9876543210</td>
+  {{#each usersData}}
+  <tr data-value={{this.userID}}>
+    <td><a href="#" onClick="updateUser({{this.userID}})">Edit</a></td>
+    <td><buton onclick="deleteUser({{this.userID}})">Delete</buton></td>
+    <td align="right" >{{this.userID}}</td>
+    <td >{{this.name}}</td>
+    <td align="right" >{{this.email}}</td>
+    <td>{{this.address}}</td>
+    <td>{{this.phone}}</td>
   </tr>
-  <tr>
-    <td><a href="#" onClick="updateUser('this.userID')">Edit</a></td>
-    <td><a href="#" onclick="deleteUser('this.userID')">Delete</a></td>
-    <td align="right" >1002</td>
-    <td>Jane Smith</td>
-    <td align="right" >jane.smith@example.com</td>
-    <td >456 Maple Avenue</td>
-    <td>1234567890</td>
-  </tr>
-  <tr>
-    <td><a href="#" onClick="updateUser('this.userID')">Edit</a></td>
-    <td><a href="#" onclick="deleteUser('this.userID')">Delete</a></td>
-    <td>1003</td>
-    <td>Alice Johnson</td>
-    <td align="right" >alice.johnson@example.com</td>
-    <td>789 Pine Road</td>
-    <td>2345678901</td>
-  </tr>
+  {{/each}}
 </table>
--->
-{{> users.hbs}}
+<script src="./js/delete_user.js"></script>
+
 <p>&nbsp;</p>
 </div> <!-- browse -->
 <div id="insert">
-    <form method="POST" id="addUser">
+    <form id="addUser">
         <legend><strong>Add User</strong></legend>
           <fieldset class="fields">
-            <label> name </label> <input type="text" name="name">
-            <label> email </label> <input type="text" name="email">
-            <label> address </label> <input type="text" name="address">
-            <label> phone </label> <input type="text" name="phone">
+            <label> name </label> <input type="text" name="name" id="nameInput">
+            <label> email </label> <input type="text" name="email" id="emailInput">
+            <label> address </label> <input type="text" name="address" id="addressInput">
+            <label> phone </label> <input type="text" name="phone" id="phoneInput">
       </fieldset>
           <input class="btn" type="submit" id="addUser" value="Add User">
           <input class="btn" type="button" value="cancel" onClick="browseUsers()">
 	</form> 
+    <script src="./js/add_user.js"></script>
 </div><!-- insert -->
+
 <p>&nbsp;</p>
+<div id="update">
+    <form id="update-user-form-ajax">
+        <legend><strong>Update User</strong></legend>
+        <fieldset class="fields">
+        <label for="inputName">name: </label>
+        <select name="inputName" id="mySelect">
+            <option value="test">Select a Person</option>
+            {{#each usersData}}
+            <option value="{{this.userID}}">{{this.name}}</option>
+            {{/each}}
+        </select>
+
+        <label> Email </label> <input type="text" name="email" id="emailUpdateInput">
+        <label> Address </label> <input type="text" name="address" id="addressUpdateInput">
+        <label> Phone </label> <input type="text" name="phone" id="phoneUpdateInput">
+        </fieldset>    
+        <input class="btn" type="submit" id="UpdateSaveUser" value="Save Update User">    
+    </form>
+    <script src="./js/update_user.js"></script>
+</div>
+
+
+
+
+
+
+
+<!--
 <div id="update">
     <form method="POST" id="UpdateUser">
         <legend><strong>Update User</strong></legend>
@@ -125,7 +139,7 @@
           <input class="btn" type="submit" id="UpdateSaveUser" value="Save Update User">
           <input class="btn" type="button" value="cancel" onClick="browseUsers()">
 	</form> 
-</div><!-- update -->
+</div> update 
 <p>&nbsp;</p>
 <div id="delete" style="display: block">
   <form method="POST" id="deleteUser">
@@ -140,7 +154,7 @@
     <input class="btn" type="submit" id="DeleteUser" value="Delete User">
           <input class="btn" type="button" value="cancel" onClick="browseUsers()">
   </form> 
-</div><!-- delete -->
+</div><! delete -->
 
 </body>
 </html>
