@@ -28,7 +28,7 @@ function deleteUpdate(updateID) {
   
   function deleteRow(updateID){
   
-    let table = document.getElementById("userTable");
+    let table = document.getElementById("updateTable");
     for (let i = 0, row; row = table.rows[i]; i++) {
        //iterate through rows
        //rows would be accessed using the "row" variable assigned in the for loop

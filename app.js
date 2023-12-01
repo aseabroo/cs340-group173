@@ -177,7 +177,7 @@ app.post('/add-updates-ajax', function(req,res){
 
 
     // Create the query and run it on the database
-    query1 = `INSERT INTO OTA_Updates (updateVersion, releaseDate, updateSize, status) VALUES ('${data.updateVersion}', '${data.releaseData}', '${date.updateSize}', '${data.status}')`;
+    query1 = `INSERT INTO OTA_Updates (updateVersion, releaseDate, updateSize, status) VALUES ('${data.updateVersion}', '${data.releaseData}', '${data.updateSize}', '${data.status}')`;
     db.pool.query(query1, function(error, rows, fields){
 
         // Check to see if there was an error
@@ -231,16 +231,16 @@ app.delete('/delete-update-ajax', function(req,res,next){
   app.put('/put-update-ajax', function(req,res,next){
     let data = req.body;
   
-
+    let updateID = parseint(data.updateID);
     let updateVersion = parseInt(data.updateVersion);
     let releaseDate = parseInt(data.releaseDate);
     let updateSize = parseInt(data.updateSize);
     let status = parseInt(data.status);
   
-    let updateUpdateQuery = `UPDATE OTA_Updates SET updateVersion=?, releaseDate=?, updateSize= ? WHERE updateID= ?`
+    let updateUpdateQuery = `UPDATE OTA_Updates SET updateVersion=?, releaseDate=?, updateSize= ?, status= ? WHERE updateID= ?`
   
           // Run the 1st query
-          db.pool.query(updateUpdateQuery, [updateVersion, releaseDate, updateSize, status], function(error, rows, fields){
+          db.pool.query(updateUpdateQuery, [updateVersion, releaseDate, updateSize, status, updateID], function(error, rows, fields){
               if (error) {
   
               // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.

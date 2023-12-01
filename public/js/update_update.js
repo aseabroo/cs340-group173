@@ -1,5 +1,5 @@
 // Get the objects we need to modify
-let updateUserForm = document.getElementById('update-user-form-ajax');
+let updateUserForm = document.getElementById('update-update-form-ajax');
 
 // Modify the objects we need
 updateUserForm.addEventListener("submit", function (e) {
@@ -24,6 +24,7 @@ updateUserForm.addEventListener("submit", function (e) {
 
     // Put our data we want to send in a javascript object
     let data = {
+        updateID: idValue,
         updateVersion: versionValue,
         releaseDate:relDateValue,
         updateSize:upSizeValue,

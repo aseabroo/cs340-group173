@@ -66,11 +66,11 @@
   {{#each updatesData}}
   <tr data-value="{{this.updateID}}">
     <td><a href="#" onClick="updateOTA_Update({{this.updateID}})">Edit</a></td>
-    <td><button onclick="deleteOTA_Update({{this.updateID}})">Delete</button></td>
+    <td><button onclick="deleteUpdate({{this.updateID}})">Delete</button></td>
     <td align="right" >{{this.updateID}}</td>
     <td align="right" >{{this.updateVersion}}</td>
     <td>{{this.releaseDate}}</td>
-    <td>{{this.updaateSize}}</td>
+    <td>{{this.updateSize}}</td>
     <td>{{this.status}}</td>
   </tr>
   {{/each}}
@@ -83,15 +83,16 @@
     <form id="addUpdate">
         <legend><strong>Add OTA_Update</strong></legend>
           <fieldset class="fields">
-            <label> Update Version </label> <input type="text" name="updateVersionInput">
-            <label> Release Date </label> <input type="date" name="releaseDateInput">
-            <label> Update Size </label> <input type="number" name="updateSizeInput">
+            <label> Update Version </label> <input type="text" id="updateVersionInput">
+            <label> Release Date </label> <input type="date" id="releaseDateInput">
+            <label> Update Size </label> <input type="number" id="updateSizeInput">
             <label> Status </label> 
             <select name="status" id="statusInput">
-                <option value="0">&nbsp;</option>
-                <option value="1">pending</option>
-                <option value="2">resolved</option>
-                <option value="3">escalated</option>
+                <option value="test">status</option>
+                <option value="1">completed</option>
+                <option value="2">pending</option>
+                <option value="3">resolved</option>
+                <option value="4">escalated</option>
             </select>
           </fieldset>
           <input class="btn" type="submit" id="addUpdate" value="Add OTA_Update">
@@ -102,7 +103,7 @@
 
 <p>&nbsp;</p>
 <div id="update">
-    <form method="POST" id="update-update-form-ajaz">
+    <form method="POST" id="update-update-form-ajax">
         <legend><strong>Update OTA_Update</strong></legend>
           <fieldset class="fields">
           <label for="inputUID"> Update ID: </label>
@@ -116,16 +117,17 @@
             <label> Update Size </label> <input type="text" name="updateSize" id="upSizeInput">
             <label>Status</label>
             <select name="status" id="upStatusInput">
-                <option value="0">&nbsp;</option>
-                <option value="1">pending</option>
-                <option value="2">resolved</option>
-                <option value="3">escalated</option>
+                <option value="test">status</option>
+                <option value="1">completed</option>
+                <option value="2">pending</option>
+                <option value="3">resolved</option>
+                <option value="4">escalated</option>
             </select>
        </fieldset>
           <input class="btn" type="submit" id="UpdateSaveOTA_Update" value="Save Update OTA_Update">
 
 	</form> 
-  <script src="./js/update_user.js"></script>
+  <script src="./js/update_update.js"></script>
 </div><!-- update -->
 
 
