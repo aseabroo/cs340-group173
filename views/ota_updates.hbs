@@ -1,0 +1,132 @@
+<html>
+<head>
+<title>OTA_Updates</title>
+<link href="style.css" rel="stylesheet" type="text/css" />
+<script language="JavaScript">
+		function showform(dowhat) {
+			/*
+			* four DIVS: browse, insert, update, delete
+			* this function sets one visible the others not
+			*/
+			if (dowhat == 'insert'){
+				document.getElementById('browse').style.display = 'none';
+				document.getElementById('insert').style.display = 'block';
+				document.getElementById('update').style.display = 'none';
+				document.getElementById('delete').style.display = 'none';
+			}
+			else if (dowhat == 'update'){
+				document.getElementById('browse').style.display = 'none';
+				document.getElementById('insert').style.display = 'none';
+				document.getElementById('update').style.display = 'block';
+				document.getElementById('delete').style.display = 'none';
+			}
+			else if (dowhat == 'delete'){
+				document.getElementById('browse').style.display = 'none';
+				document.getElementById('insert').style.display = 'none';
+				document.getElementById('update').style.display = 'none';
+				document.getElementById('delete').style.display = 'block';
+			}
+      else if (dowhat == 'all'){
+				document.getElementById('browse').style.display = 'block';
+				document.getElementById('insert').style.display = 'block';
+				document.getElementById('update').style.display = 'block';
+				document.getElementById('delete').style.display = 'block';
+			}
+			else { //by default display browse
+				document.getElementById('browse').style.display = 'block';
+				document.getElementById('insert').style.display = 'none';
+				document.getElementById('update').style.display = 'none';
+				document.getElementById('delete').style.display = 'none';
+			}
+		}
+    function newOTA_Update() { showform('insert'); }
+    function updateOTA_Update(pid) { showform('update'); }
+    function deleteOTA_Update(pid) { showform ('delete'); }
+    function browseOTA_Update() { showform ('browse'); }
+    function showAll() { showform ('all'); }
+</script>
+</head>
+
+<body onload="browseOTA_Update()">
+<h1>OTA_Updates</h1>
+<nav>
+    [ <a href="users.html">Users</a> | <a href="appliances.html">Appliances</a> | <a href="ota_updates.html">OTA_Updates</a>  | <a href="customerservices.html">CustomerServices</a> | <a href="ota_updatesappliances.html">OTA_UpdatesAppliances</a>  ]
+    </nav>
+<div id="browse">
+<p><a href="#" onClick="showAll()">Display all forms</a> </p>
+
+<table border="1" cellpadding="5" id="updateTable">
+  <tr>
+    <th><a href="#" onClick="newOTA_Update()">New</a></th>
+    <th></th>
+    {{#each updatesData.[0]}}
+        <th>{{@key}}</th>
+    {{/each}}
+  </tr>
+  {{#each updatesData}}
+  <tr data-value="{{this.updateID}}">
+    <td><a href="#" onClick="updateOTA_Update({{this.updateID}})">Edit</a></td>
+    <td><button onclick="deleteOTA_Update({{this.updateID}})">Delete</button></td>
+    <td align="right" >{{this.updateID}}</td>
+    <td align="right" >{{this.updateVersion}}</td>
+    <td>{{this.releaseDate}}</td>
+    <td>{{this.updaateSize}}</td>
+    <td>{{this.status}}</td>
+  </tr>
+  {{/each}}
+</table>
+<script src="./js/delete_update.js"></script>
+
+<p>&nbsp;</p>
+</div> <!-- browse -->
+<div id="insert">
+    <form id="addUpdate">
+        <legend><strong>Add OTA_Update</strong></legend>
+          <fieldset class="fields">
+            <label> Update Version </label> <input type="text" name="updateVersionInput">
+            <label> Release Date </label> <input type="date" name="releaseDateInput">
+            <label> Update Size </label> <input type="number" name="updateSizeInput">
+            <label> Status </label> 
+            <select name="status" id="statusInput">
+                <option value="0">&nbsp;</option>
+                <option value="1">pending</option>
+                <option value="2">resolved</option>
+                <option value="3">escalated</option>
+            </select>
+          </fieldset>
+          <input class="btn" type="submit" id="addUpdate" value="Add OTA_Update">
+          <input class="btn" type="button" value="cancel" onClick="browseOTA_Updates()">
+	</form> 
+    <script src="./js/add_update.js"></script>
+</div><!-- insert -->
+
+<p>&nbsp;</p>
+<div id="update">
+    <form method="POST" id="update-update-form-ajaz">
+        <legend><strong>Update OTA_Update</strong></legend>
+          <fieldset class="fields">
+          <label for="inputUID"> Update ID: </label>
+          <select name="inputUID" id="upSelect">
+            <option value="test">Select a Update</option>
+            {{#each updatesData}}
+              <option value="{{this.updateID}}">{{this.updateID}}</option>
+            {{/each}}
+            <label> Update Version </label> <input type="text" name="updateVersion" id="upVersionInput">
+            <label> Release Date </label> <input type="date" name="releaseDate" id="relDateInput">
+            <label> Update Size </label> <input type="text" name="updateSize" id="upSizeInput">
+            <label>Status</label>
+            <select name="status" id="upStatusInput">
+                <option value="0">&nbsp;</option>
+                <option value="1">pending</option>
+                <option value="2">resolved</option>
+                <option value="3">escalated</option>
+            </select>
+       </fieldset>
+          <input class="btn" type="submit" id="UpdateSaveOTA_Update" value="Save Update OTA_Update">
+
+	</form> 
+  <script src="./js/update_user.js"></script>
+</div><!-- update -->
+
+
+

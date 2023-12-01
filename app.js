@@ -3,7 +3,7 @@
 */
 
 // Express
-PORT        = 9998;
+PORT        = 8081;
 var express = require('express');   // We are using the express library for the web server
 var app     = express();            // We need to instantiate an express object to interact with the server in our code
 app.use(express.json())
@@ -133,6 +133,124 @@ app.delete('/delete-user-ajax', function(req,res,next){
             }
   })});
 
+/*---------------------------------------------------------------------------------------
+Implementation of OTA_Updates page
+---------------------------------------------------------------------------------------*/
+
+app.get('/ota_updates', function(req,res) {
+    let updatesDisplay = `SELECT * FROM OTA_Updates;`;
+
+    db.pool.query(updatesDisplay, function(error, rows, feilds) {
+        res.render('ota_updates', {updatesData: rows})
+    })
+});
+
+app.post('/add-updates-ajax', function(req,res){
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
+
+    // Capture NULL values
+    let updateVersion = parseInt(data.updateVersion);
+    if (isNaN(updateVersion))
+    {
+        updateVersion = 'NULL'
+    }
+
+    let releaseDate = parseInt(data.releaseDate);
+    if (isNaN(releaseDate))
+    {
+        releaseDate = 'NULL'
+    }
+
+    let updateSize = parseInt(data.updateSize);
+    if (isNaN(updateSize))
+    {
+        updateSize = 'NULL'
+    }
+
+    let status = parseInt(data.status); 
+    if (isNaN(status))
+    {
+        status = 'NULL'
+    }
+
+
+
+    // Create the query and run it on the database
+    query1 = `INSERT INTO OTA_Updates (updateVersion, releaseDate, updateSize, status) VALUES ('${data.updateVersion}', '${data.releaseData}', '${date.updateSize}', '${data.status}')`;
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+        else
+        {
+            // If there was no error, perform a SELECT *
+            query2 = `SELECT * FROM OTA_Updates;`;
+            db.pool.query(query2, function(error, rows, fields){
+
+                // If there was an error on the second query, send a 400
+                if (error) {
+                    
+                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                // If all went well, send the results of the query back.
+                else
+                {
+                    res.send(rows);
+                }
+            })
+        }
+    })
+});
+
+app.delete('/delete-update-ajax', function(req,res,next){
+    let data = req.body;
+    let updateID = parseInt(data.id);
+    let deleteUpdate = `DELETE FROM OTA_Updates WHERE updateID = ?`;
+  
+          // Run the 1st query
+          db.pool.query(deleteUpdate, [updateID], function(error, rows, fields){
+              if (error) {
+  
+              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+              console.log(error);
+              res.sendStatus(400);
+              } else {
+                res.sendStatus(204);
+            }
+              
+  })});
+
+  app.put('/put-update-ajax', function(req,res,next){
+    let data = req.body;
+  
+
+    let updateVersion = parseInt(data.updateVersion);
+    let releaseDate = parseInt(data.releaseDate);
+    let updateSize = parseInt(data.updateSize);
+    let status = parseInt(data.status);
+  
+    let updateUpdateQuery = `UPDATE OTA_Updates SET updateVersion=?, releaseDate=?, updateSize= ? WHERE updateID= ?`
+  
+          // Run the 1st query
+          db.pool.query(updateUpdateQuery, [updateVersion, releaseDate, updateSize, status], function(error, rows, fields){
+              if (error) {
+  
+              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+              console.log(error);
+              res.sendStatus(400);
+
+            } else {
+                res.send(rows);
+            }
+  })});
 
 
 
