@@ -253,6 +253,87 @@ app.delete('/delete-update-ajax', function(req,res,next){
   })});
 
 
+/*---------------------------------------------------------------------------------------
+Implementation of customerServices page
+---------------------------------------------------------------------------------------*/
+
+app.get('/customerServies', function(req,res) {
+    let updatesDisplay = `SELECT * FROM CustomerServices;`;
+
+    db.pool.query(updatesDisplay, function(error, rows, feilds) {
+        res.render('customerServices', {updatesData: rows})
+    })
+});
+
+app.post('/add-customerService-ajax', function(req,res){
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
+
+    // Capture NULL values
+    let appID = parseInt(data.applianceID);
+    if (isNaN(appID))
+    {
+        appID = 'NULL'
+    }
+
+    // Create the query and run it on the database
+
+    query4 =`INSERT INTO CustomerServices (userID, issueDescription, resolutionStatus, dateReported, applianceID) VALUES ('SELECT FROM Users userID WHERE userID =${data.userID}', '${data.issueDescription}', '${data.resolutionStatus}', '${data.dateReported}', '${data.applianceID}');`
+    db.pool.query(query4, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+        else
+        {
+            // If there was no error, perform a SELECT *
+            query2 = `SELECT * FROM CustomerServices;`;
+            db.pool.query(query2, function(error, rows, fields){
+
+                // If there was an error on the second query, send a 400
+                if (error) {
+                    
+                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                // If all went well, send the results of the query back.
+                else
+                {
+                    res.send(rows);
+                }
+            })
+        }
+    })
+});
+
+
+
+app.delete('/delete-customerService-ajax', function(req,res,next){
+    let data = req.body;
+    let serviceID = parseInt(data.id);
+    let deleteService = `DELETE FROM CustomerServices WHERE serviceID= ?;`;
+  
+          // Run the 1st query
+          db.pool.query(deleteService, [serviceID], function(error, rows, fields){
+              if (error) {
+  
+              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+              console.log(error);
+              res.sendStatus(400);
+              } else {
+                res.sendStatus(204);
+            }
+              
+  })});
+
+/*---------------------------------------------------------------------------------------
+Implementation of Appliances page
+---------------------------------------------------------------------------------------*/
 
 app.post('/add-appliance-ajax', function(req, res) 
 {
