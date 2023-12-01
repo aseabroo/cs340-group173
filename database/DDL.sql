@@ -36,7 +36,7 @@ CREATE OR REPLACE TABLE Appliances (
     userID INT NOT NULL,
     PRIMARY KEY (applianceID),
     INDEX fk_customerServices_Users1_idx (userID ASC) VISIBLE,
-    CONSTRAINT fk_Appliances_Users1 FOREIGN KEY(userID) REFERENCES Users(userID)
+    CONSTRAINT fk_Appliances_Users1 FOREIGN KEY(userID) REFERENCES Users(userID) ON DELETE CASCADE
 );
 ALTER TABLE Users AUTO_INCREMENT = 2000; --incremented to prevent overlap with UserIDs
 
@@ -51,8 +51,8 @@ CREATE OR REPLACE TABLE CustomerServices (
     PRIMARY KEY(serviceID),
     INDEX fk_customerServices_Appliances1_idx (applianceID ASC) VISIBLE,
     INDEX fk_customerServices_Users1_idx (userID ASC) VISIBLE,
-    CONSTRAINT fk_customerServices_Users1 FOREIGN KEY(userID) REFERENCES Users(userID),
-    CONSTRAINT fk_customerServices_Appliances1 FOREIGN KEY(applianceID) REFERENCES Appliances(applianceID)
+    CONSTRAINT fk_customerServices_Users1 FOREIGN KEY(userID) REFERENCES Users(userID) ON DELETE CASCADE,
+    CONSTRAINT fk_customerServices_Appliances1 FOREIGN KEY(applianceID) REFERENCES Appliances(applianceID) ON DELETE CASCADE
 );
 ALTER TABLE Users AUTO_INCREMENT = 4000; --incremented to prevent overlap with other iDs
 
