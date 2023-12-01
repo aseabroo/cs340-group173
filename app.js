@@ -257,12 +257,23 @@ app.delete('/delete-update-ajax', function(req,res,next){
 Implementation of customerServices page
 ---------------------------------------------------------------------------------------*/
 
-app.get('/customerServies', function(req,res) {
-    let updatesDisplay = `SELECT * FROM CustomerServices;`;
+app.get('/customerservices', function(req,res) {
+    let csDisplay = `SELECT * FROM CustomerServices;`;
+    let usersDisplay = `SELECT * FROM Users;`;
+    let appliancesDisplay = `SELECT * FROM Appliances;`;
 
-    db.pool.query(updatesDisplay, function(error, rows, feilds) {
-        res.render('customerServices', {updatesData: rows})
+    db.pool.query(csDisplay, function(error, rows, feilds) {
+        res.render('customerServices', {csData: rows})
     })
+
+    db.pool.query(usersDisplay, function(error, rows, feilds) {
+        res.render('users', {usersData: rows})
+    })
+
+    db.pool.query(appliancesDisplay, function(error, rows, feilds) {
+        res.render('users', {appliancesData: rows})
+    })
+
 });
 
 app.post('/add-customerService-ajax', function(req,res){
@@ -277,8 +288,7 @@ app.post('/add-customerService-ajax', function(req,res){
     }
 
     // Create the query and run it on the database
-
-    query4 =`INSERT INTO CustomerServices (userID, issueDescription, resolutionStatus, dateReported, applianceID) VALUES ('SELECT FROM Users userID WHERE userID =${data.userID}', '${data.issueDescription}', '${data.resolutionStatus}', '${data.dateReported}', '${data.applianceID}');`
+    query4 =`INSERT INTO CustomerServices (userID, issueDescription, resolutionStatus, dateReported, applianceID) VALUES ('SELECT FROM Users userID WHERE userID =${data.userID}', '${data.issueDescription}', '${data.resolutionStatus}', '${data.dateReported}', 'SELECT FROM Appliances applianceID WHERE applianceID =${data.applianceID}');`
     db.pool.query(query4, function(error, rows, fields){
 
         // Check to see if there was an error
