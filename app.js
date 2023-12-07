@@ -263,9 +263,13 @@ app.get('/customerservices', function(req,res) {
     let appliancesDisplay = `SELECT * FROM Appliances;`;
 
     db.pool.query(csDisplay, function(error, rows, feilds) {
-        res.render('customerServices', {csData: rows})
+        db.pool.query(usersDisplay, function(error, rows, feilds) {
+            db.pool.query(appliancesDisplay, function(error, rows, feilds) {
+                res.render('customerServices', {csData: rows,usersData: rows,appliancesData: rows})
+            })
+        })
     })
-
+/*
     db.pool.query(usersDisplay, function(error, rows, feilds) {
         res.render('users', {usersData: rows})
     })
@@ -273,7 +277,7 @@ app.get('/customerservices', function(req,res) {
     db.pool.query(appliancesDisplay, function(error, rows, feilds) {
         res.render('users', {appliancesData: rows})
     })
-
+*/
 });
 
 app.post('/add-customerService-ajax', function(req,res){
@@ -288,7 +292,11 @@ app.post('/add-customerService-ajax', function(req,res){
     }
 
     // Create the query and run it on the database
-    query4 =`INSERT INTO CustomerServices (userID, issueDescription, resolutionStatus, dateReported, applianceID) VALUES ('SELECT FROM Users userID WHERE userID =${data.userID}', '${data.issueDescription}', '${data.resolutionStatus}', '${data.dateReported}', 'SELECT FROM Appliances applianceID WHERE applianceID =${data.applianceID}');`
+    if(data.applianceID) {
+        query4 =`INSERT INTO CustomerServices (userID, issueDescription, resolutionStatus, dateReported, applianceID) VALUES ('SELECT FROM Users userID WHERE userID =${data.userID}', '${data.issueDescription}', '${data.resolutionStatus}', '${data.dateReported}', 'SELECT FROM Appliances applianceID WHERE applianceID =${data.applianceID}');`
+    } else {
+        query4 =`INSERT INTO CustomerServices (userID, issueDescription, resolutionStatus, dateReported, applianceID) VALUES ('SELECT FROM Users userID WHERE userID =${data.userID}', '${data.issueDescription}', '${data.resolutionStatus}', '${data.dateReported}', 'SELECT FROM Appliances applianceID WHERE applianceID =${NULL}');`
+    }
     db.pool.query(query4, function(error, rows, fields){
 
         // Check to see if there was an error
