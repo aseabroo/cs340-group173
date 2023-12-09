@@ -35,10 +35,9 @@ CREATE OR REPLACE TABLE Appliances (
     lastUpdated DATE NOT NULL,
     userID INT NOT NULL,
     PRIMARY KEY (applianceID),
-    INDEX fk_customerServices_Users1_idx (userID ASC) VISIBLE,
-    CONSTRAINT fk_Appliances_Users1 FOREIGN KEY(userID) REFERENCES Users(userID)
+    FOREIGN KEY(userID) REFERENCES Users(userID) ON DELETE SET NULL
 );
-ALTER TABLE Users AUTO_INCREMENT = 2000; --incremented to prevent overlap with UserIDs
+ALTER TABLE Appliances AUTO_INCREMENT = 2000; --incremented to prevent overlap with UserIDs
 
 -- CustomerServices table records interaction with users for support and maintenance
 CREATE OR REPLACE TABLE CustomerServices (
@@ -49,10 +48,8 @@ CREATE OR REPLACE TABLE CustomerServices (
     userID int NOT NULL,
     applianceID int NULL,
     PRIMARY KEY(serviceID),
-    INDEX fk_customerServices_Appliances1_idx (applianceID ASC) VISIBLE,
-    INDEX fk_customerServices_Users1_idx (userID ASC) VISIBLE,
-    CONSTRAINT fk_customerServices_Users1 FOREIGN KEY(userID) REFERENCES Users(userID),
-    CONSTRAINT fk_customerServices_Appliances1 FOREIGN KEY(applianceID) REFERENCES Appliances(applianceID)
+    FOREIGN KEY(applianceID) REFERENCES Appliances(applianceID) ON DELETE SET NULL,
+    FOREIGN KEY(userID) REFERENCES Users(userID) ON DELETE CASCADE
 );
 ALTER TABLE Users AUTO_INCREMENT = 4000; --incremented to prevent overlap with other iDs
 
@@ -62,7 +59,7 @@ CREATE OR REPLACE TABLE OTA_Updates (
     updateVersion varchar(20) NULL,
     releaseDate DATE NULL,
     updateSize int NULL,
-    status varchar(45) NULL,
+    status ENUM('completed','pending','resolved','escalated') NULL,
     PRIMARY KEY (updateID)
 );
 ALTER TABLE Users AUTO_INCREMENT = 3000; --incremented to prevent overlap with other iDs
@@ -72,10 +69,8 @@ CREATE OR REPLACE TABLE OTA_UpdatesAppliances(
     otaUpdatesUpdateID INT NOT NULL,
     appliancesApplianceID INT NOT NULL,
     PRIMARY KEY(otaUpdatesUpdateID,appliancesApplianceID),
-    INDEX fk_OTA_UpdatesAppliances_Appliances1_idx (appliancesApplianceID ASC) VISIBLE,
-    INDEX fk_OTA_UpdatesAppliances_OTA_Updates1_idx (otaUpdatesUpdateID ASC) VISIBLE, 
-    CONSTRAINT fk_OTA_UpdatesAppliances_OTA_Updates1 FOREIGN KEY(otaUpdatesUpdateID) REFERENCES OTA_Updates(updateID) ON DELETE CASCADE,
-    CONSTRAINT fk_OTA_UpdatesAppliances_Appliances1 FOREIGN KEY(AppliancesApplianceID) REFERENCES Appliances(applianceID) ON DELETE CASCADE
+    FOREIGN KEY(otaUpdatesUpdateID) REFERENCES OTA_Updates(updateID) ON DELETE CASCADE,
+    FOREIGN KEY(appliancesApplianceID) REFERENCES Appliances(applianceID) ON DELETE CASCADE
 );
 
 

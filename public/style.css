@@ -1,0 +1,128 @@
+/* Define color variables */
+:root {
+    --blue: #007bff; /* Primary Blue */
+    --light-blue: #5bc0de; /* Light Blue */
+    --sea-blue: #48a1d9; /* Sea Blue */
+    --dark-blue: #0056b3; /* Darker Blue for contrast */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--light-blue);
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    color: var(--blue);
+    text-align: center;
+    padding: 20px 0;
+}
+
+/* Navigation Bar Styles */
+nav {
+    background-color: var(--sea-blue);
+    padding: 10px 0;
+    text-align: center;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    padding: 12px 20px;
+    display: inline-block;
+}
+
+nav a:hover {
+    background-color: var(--dark-blue);
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: var(--dark-blue);
+    color: white;
+    padding: 15px;
+}
+
+td {
+    text-align: left;
+    padding: 15px;
+}
+
+/* Form Styles */
+form {
+    background-color: white;
+    padding: 20px;
+    margin-top: 20px;
+    display: block; /* Updated to make forms visible */
+}
+
+
+
+/* Button Styles */
+.btn {
+    background-color: var(--blue);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px 0;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: var(--dark-blue);
+}
+
+/* Additional fieldset styles if needed */
+fieldset.fields {
+    border: 1px solid var(--sea-blue);
+    padding: 10px;
+}
+
+legend {
+    color: var(--blue);
+    padding: 0 10px;
+    font-size: large;
+    font-weight: bold;
+}
+
+label {
+    margin-right: 10px;
+}
+
+input[type="text"], input[type="email"] {
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+/* The active form is displayed */
+div#browse, div#insert, div#update, div#delete {
+    display: none;
+}
+
+/* Display block for the 'delete' form since it's shown in the HTML */
+div#delete {
+    display: block;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    nav a {
+        padding: 10px;
+        font-size: smaller;
+    }
+
+    .btn {
+        padding: 8px 16px;
+    }
+}
