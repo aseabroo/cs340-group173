@@ -111,17 +111,22 @@ app.delete('/delete-user-ajax', function(req,res,next){
 
   app.put('/put-user-ajax', function(req,res,next){
     let data = req.body;
-  
+    console.log("in backend");
 
-    let name = parseInt(data.name);
-    let email = parseInt(data.email);
-    let address = parseInt(data.address);
+    let id = parseInt(data.id);
+    let email = data.email;
+    let address = data.address;
     let phone = parseInt(data.phone);
+
+    if(isNaN(phone)) {
+        phone = null;
+    }
   
     let updateUserQuery = `UPDATE Users SET email = ?, address = ?, phone = ? WHERE userID = ?`
+    let selectUser = `SELECT * FROM Users WHERE userID = ?`
   
           // Run the 1st query
-          db.pool.query(updateUserQuery, [email, address, phone, name], function(error, rows, fields){
+          db.pool.query(updateUserQuery, [email, address, phone, id], function(error, rows, fields){
               if (error) {
   
               // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
@@ -129,7 +134,14 @@ app.delete('/delete-user-ajax', function(req,res,next){
               res.sendStatus(400);
 
             } else {
-                res.send(rows);
+                db.pool.query(selectUser, [id], function(error,rows,feilds) {
+                    if (error) {
+                        console.log(error);
+                        res.sendStatus(400);
+                    } else {
+                        res.send(rows);
+                    } 
+                })
             }
   })});
 
@@ -177,7 +189,7 @@ app.post('/add-updates-ajax', function(req,res){
 
 
     // Create the query and run it on the database
-    query1 = `INSERT INTO OTA_Updates (updateVersion, releaseDate, updateSize, status) VALUES ('${data.updateVersion}', '${data.releaseData}', '${data.updateSize}', '${data.status}')`;
+    query1 = `INSERT INTO OTA_Updates (updateVersion, releaseDate, updateSize, status) VALUES ('${data.updateVersion}', '${data.releaseDate}', '${data.updateSize}', '${data.status}')`;
     db.pool.query(query1, function(error, rows, fields){
 
         // Check to see if there was an error
@@ -231,13 +243,14 @@ app.delete('/delete-update-ajax', function(req,res,next){
   app.put('/put-update-ajax', function(req,res,next){
     let data = req.body;
   
-    let updateID = parseint(data.updateID);
-    let updateVersion = parseInt(data.updateVersion);
-    let releaseDate = parseInt(data.releaseDate);
+    let updateID = parseInt(data.updateID);
+    let updateVersion = data.updateVersion;
+    let releaseDate = data.releaseDate;
     let updateSize = parseInt(data.updateSize);
     let status = parseInt(data.status);
   
     let updateUpdateQuery = `UPDATE OTA_Updates SET updateVersion=?, releaseDate=?, updateSize= ?, status= ? WHERE updateID= ?`
+    let selectUpdate = `SELECT * FROM OTA_Updates WHERE updateID = ?`
   
           // Run the 1st query
           db.pool.query(updateUpdateQuery, [updateVersion, releaseDate, updateSize, status, updateID], function(error, rows, fields){
@@ -248,7 +261,15 @@ app.delete('/delete-update-ajax', function(req,res,next){
               res.sendStatus(400);
 
             } else {
-                res.send(rows);
+                db.pool.query(selectUpdate, [updateID], function(error, rows, fields) {
+
+                    if (error) {
+                        console.log(error);
+                        res.sendStatus(400);
+                    } else {
+                        res.send(rows);
+                    }
+                })
             }
   })});
 
@@ -263,9 +284,12 @@ app.get('/customerservices', function(req,res) {
     let appliancesDisplay = `SELECT * FROM Appliances;`;
 
     db.pool.query(csDisplay, function(error, rows, feilds) {
+        let csd = rows;
         db.pool.query(usersDisplay, function(error, rows, feilds) {
+            let ud = rows;
             db.pool.query(appliancesDisplay, function(error, rows, feilds) {
-                res.render('customerServices', {csData: rows,usersData: rows,appliancesData: rows})
+                let ad = rows;
+                res.render('customerServices', {csData: csd,usersData: ud,appliancesData: ad})
             })
         })
     })
@@ -292,11 +316,7 @@ app.post('/add-customerService-ajax', function(req,res){
     }
 
     // Create the query and run it on the database
-    if(data.applianceID) {
-        query4 =`INSERT INTO CustomerServices (userID, issueDescription, resolutionStatus, dateReported, applianceID) VALUES ('SELECT FROM Users userID WHERE userID =${data.userID}', '${data.issueDescription}', '${data.resolutionStatus}', '${data.dateReported}', 'SELECT FROM Appliances applianceID WHERE applianceID =${data.applianceID}');`
-    } else {
-        query4 =`INSERT INTO CustomerServices (userID, issueDescription, resolutionStatus, dateReported, applianceID) VALUES ('SELECT FROM Users userID WHERE userID =${data.userID}', '${data.issueDescription}', '${data.resolutionStatus}', '${data.dateReported}', 'SELECT FROM Appliances applianceID WHERE applianceID =${NULL}');`
-    }
+    query4 =`INSERT INTO CustomerServices (userID, issueDescription, resolutionStatus, dateReported, applianceID) VALUES ('${data.userID}', '${data.issueDescription}', '${data.resolutionStatus}', '${data.dateReported}', '${data.applianceID}');`
     db.pool.query(query4, function(error, rows, fields){
 
         // Check to see if there was an error

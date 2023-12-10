@@ -33,7 +33,7 @@ CREATE OR REPLACE TABLE Appliances (
     model varchar(50) NOT NULL,
     datePurchased DATE NOT NULL,
     lastUpdated DATE NOT NULL,
-    userID INT NOT NULL,
+    userID INT,
     PRIMARY KEY (applianceID),
     FOREIGN KEY(userID) REFERENCES Users(userID) ON DELETE SET NULL
 );

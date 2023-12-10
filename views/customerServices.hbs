@@ -73,7 +73,7 @@
     <td align="right" >{{this.serviceID}}</td>
     <td >{{this.userID}}</td>
     <td align="right" >{{this.applianceID}}</td>
-    <td>{{this.issueDiscription}}</td>
+    <td>{{this.issueDescription}}</td>
     <td>{{this.dateReported}}</td>
     <td>{{this.resolutionStatus}}</td>
   </tr>
@@ -97,7 +97,6 @@
             <select name="applianceID" value="2001" id="customerAppliance">
               <option value="0">&nbsp;</option>
               {{#each appliancesData}}
-                <option value="0">&nbsp;</option>
                 <option value="{{this.applianceID}}">{{this.applianceID}}</option>
               {{/each}}
             </select>
@@ -117,16 +116,16 @@
 
 
 
-
 <!--
+
 
 <p>&nbsp;</p>
 <div id="update">
-    <form method="POST" id="UpdateCustomerService">
+    <form method="POST" id="update-services-form-ajax">
         <legend><strong>Update Customer Service</strong></legend>
           <fieldset class="fields">
           <input type="hidden" name="serviceID" id="updateserviceID" value="3001">
-          <label> Service ID: </label> 4001
+          <label> Service ID: </label>
             <label> User ID </label> 
             <select name="userID" value="1001">
               <option value="1001" selected>1001</option>
@@ -152,4 +151,4 @@
           <input class="btn" type="button" value="cancel" onClick="browseCustomerServices()">
 	</form> 
 </div>
--->
+ -->

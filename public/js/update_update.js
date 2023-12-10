@@ -17,11 +17,13 @@ updateUserForm.addEventListener("submit", function (e) {
     let idValue = inputID.value;
     let versionValue = inputVersion.value;
     let relDateValue = inputRelDate.value;
-    let upSizeValue = inputUpSize;
+    let upSizeValue = inputUpSize.value;
     let statusValue = inputStatus.value;
-    
 
-
+    if(versionValue = '') {
+        versionValue = null;
+    }
+ 
     // Put our data we want to send in a javascript object
     let data = {
         updateID: idValue,
@@ -69,10 +71,16 @@ function updateUpRow(data, name){
             let updateRowIndex = table.getElementsByTagName("tr")[i];
 
             // Get td of homeworld value
-            let td = updateRowIndex.getElementsByTagName("td")[3];
+            let tdVersion = updateRowIndex.getElementsByTagName("td")[3];
+            let tdRelease = updateRowIndex.getElementsByTagName("td")[4];
+            let tdSize = updateRowIndex.getElementsByTagName("td")[5];
+            let tdStatus = updateRowIndex.getElementsByTagName("td")[6];
 
             // Reassign homeworld to our value we updated to
-            td.innerHTML = parsedData[0].name; 
+            tdVersion.innerHTML = parsedData[0].updateVersion;
+            tdRelease.innerHTML = parsedData[0].releaseDate;
+            tdSize.innerHTML = parsedData[0].updateSize;
+            tdStatus.innerHTML = parsedData[0].status; 
        }
     }
 }

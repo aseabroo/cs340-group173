@@ -90,11 +90,11 @@ addRowToTable = (data) => {
 
     // Fill the cells with correct data
     idCell.innerText = newRow.serviceID;
-    customerCell = newRow.userID;
-    applianceCell = newRow.applianceID;
-    issueCell = newRow.issueDescription;
-    dateCell = newRow.dateReported;
-    resolutionCell = newRow.resolutionStatus;
+    customerCell.innerText = newRow.userID;
+    applianceCell.innerText = newRow.applianceID;
+    issueCell.innerText = newRow.issueDescription;
+    dateCell.innerText = newRow.dateReported;
+    resolutionCell.innerText = newRow.resolutionStatus;
 
     delCell = document.createElement("button");
     delCell.innerHTML = "Delete";
