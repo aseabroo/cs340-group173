@@ -73,7 +73,7 @@
     <td align="right" >{{this.serviceID}}</td>
     <td >{{this.userID}}</td>
     <td align="right" >{{this.applianceID}}</td>
-    <td>{{this.issueDiscription}}</td>
+    <td>{{this.issueDescription}}</td>
     <td>{{this.dateReported}}</td>
     <td>{{this.resolutionStatus}}</td>
   </tr>
@@ -97,7 +97,6 @@
             <select name="applianceID" value="2001" id="customerAppliance">
               <option value="0">&nbsp;</option>
               {{#each appliancesData}}
-                <option value="0">&nbsp;</option>
                 <option value="{{this.applianceID}}">{{this.applianceID}}</option>
               {{/each}}
             </select>
@@ -105,8 +104,8 @@
             <label> Date Reported </label> <input type="date" id="dateReported">
             <label> Resolution Status </label> <select id="csStatus">
                 <option value="0">&nbsp;</option>
-                <option value="1">pending</option>
-                <option value="2">resolved</option>
+                <option value="1">resolved</option>
+                <option value="2">pending</option>
                 <option value="3">escalated</option>
                 </select>
       </fieldset>
@@ -116,40 +115,27 @@
 </div><!-- insert -->
 
 
-
-
-<!--
-
 <p>&nbsp;</p>
 <div id="update">
-    <form method="POST" id="UpdateCustomerService">
+    <form method="POST" id="update-services-form-ajax">
         <legend><strong>Update Customer Service</strong></legend>
           <fieldset class="fields">
-          <input type="hidden" name="serviceID" id="updateserviceID" value="3001">
-          <label> Service ID: </label> 4001
-            <label> User ID </label> 
-            <select name="userID" value="1001">
-              <option value="1001" selected>1001</option>
-              <option value="1002">1002</option>
-              <option value="1003">1003</option>
-            </select>
-            <label> Appliance ID </label> 
-            <select name="applianceID" value="2001">
-              <option value="0">&nbsp;</option>
-              <option value="2001" selected>2001</option>
-              <option value="2002">2002</option>
-              <option value="2003">2003</option>
-            </select>
-            <label> Issue Description </label> <input type="text" name="issueDescription" value="Oven heating irregularly">
-            <label> Date Reported </label> <input type="date" name="dateReported" value="2023-03-25">
-            <label> Resolution Status </label> <select name="resolutionStatus">
-                <option value="0">&nbsp;</option>
-                <option value="1" >pending</option>
-                <option value="2" selected>resolved</option>
-                <option value="3">escalated</option>
+          <label> Service ID: </label>
+          <select name="serviceID" id="serIDSelect">
+            {{#each csData}}
+              <option value="{{this.serviceID}}">{{this.serviceID}}</option>
+            {{/each}}
+          </select>
+          <label> Resolution Status: </label> 
+          <select id="csUpStatus">
+            <option value="0">&nbsp;</option>
+            <option value="1">resolved</option>
+            <option value="2">pending</option>
+            <option value="3">escalated</option>
+          </select>
        </fieldset>
           <input class="btn" type="submit" id="UpdateSaveCustomerService" value="Save Update CustomerService">
           <input class="btn" type="button" value="cancel" onClick="browseCustomerServices()">
 	</form> 
+  <script src="./js/update_customerService.js"></script>
 </div>
--->

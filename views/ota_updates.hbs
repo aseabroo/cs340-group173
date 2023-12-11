@@ -112,9 +112,10 @@
             {{#each updatesData}}
               <option value="{{this.updateID}}">{{this.updateID}}</option>
             {{/each}}
+          </select>
             <label> Update Version </label> <input type="text" name="updateVersion" id="upVersionInput">
             <label> Release Date </label> <input type="date" name="releaseDate" id="relDateInput">
-            <label> Update Size </label> <input type="text" name="updateSize" id="upSizeInput">
+            <label> Update Size </label> <input type="number" name="updateSize" id="upSizeInput">
             <label>Status</label>
             <select name="status" id="upStatusInput">
                 <option value="test">status</option>

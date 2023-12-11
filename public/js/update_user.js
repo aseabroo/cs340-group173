@@ -4,32 +4,39 @@ let updateUserForm = document.getElementById('update-user-form-ajax');
 // Modify the objects we need
 updateUserForm.addEventListener("submit", function (e) {
    
+    console.log("submit working");
     // Prevent the form from submitting
     e.preventDefault();
 
     // Get form fields we need to get data from
-    let inputName = document.getElementById("mySelect");
+    let inputID = document.getElementById("mySelect");
     let inputEmail = document.getElementById("emailUpdateInput");
     let inputAddress = document.getElementById("addressUpdateInput");
     let inputPhone = document.getElementById("phoneUpdateInput");
 
-    let nameValue = inputName.value;
+    let IDValue = inputID.value;
     let emailValue = inputEmail.value;
     let addressValue = inputAddress.value;
     let phoneValue = inputPhone.value;
     
     // currently the database table for bsg_people does not allow updating values to NULL
     // so we must abort if being bassed NULL for homeworld
-
-    if (isNaN(emailValue) || isNaN(addressValue)) 
+    console.log(emailValue);
+    console.log(addressValue);
+    console.log(phoneValue);
+    if (emailValue == ''|| addressValue == '') 
     {
+        console.log("returns due to negative inputs");
+        return;
+    }
+    if(isNaN(phoneValue)) {
         return;
     }
 
 
     // Put our data we want to send in a javascript object
     let data = {
-        name: nameValue,
+        id: IDValue,
         email:emailValue,
         address: addressValue,
         phone: phoneValue
@@ -45,7 +52,7 @@ updateUserForm.addEventListener("submit", function (e) {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
 
             // Add the new data to the table
-            updateRow(xhttp.response, nameValue);
+            updateRow(xhttp.response, IDValue);
 
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
@@ -61,7 +68,7 @@ updateUserForm.addEventListener("submit", function (e) {
 
 function updateRow(data, name){
     let parsedData = JSON.parse(data);
-    
+    console.log("correctly sends data");
     let table = document.getElementById("userTable");
 
     for (let i = 0, row; row = table.rows[i]; i++) {
@@ -73,10 +80,14 @@ function updateRow(data, name){
             let updateRowIndex = table.getElementsByTagName("tr")[i];
 
             // Get td of homeworld value
-            let td = updateRowIndex.getElementsByTagName("td")[3];
-
+            let tdEmail = updateRowIndex.getElementsByTagName("td")[4];
+            let tdAddress = updateRowIndex.getElementsByTagName("td")[5];
+            let tdPhone = updateRowIndex.getElementsByTagName("td")[6];
+            //need to do it for 4-6
             // Reassign homeworld to our value we updated to
-            td.innerHTML = parsedData[0].name; 
+            tdEmail.innerHTML = parsedData[0].email; 
+            tdAddress.innerHTML = parsedData[0].address;
+            tdPhone.innerHTML = parsedData[0].phone;
        }
     }
 }

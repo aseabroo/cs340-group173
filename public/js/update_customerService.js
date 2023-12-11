@@ -1,5 +1,5 @@
 // Get the objects we need to modify
-let updateUserForm = document.getElementById('update-update-form-ajax');
+let updateUserForm = document.getElementById('update-services-form-ajax');
 
 // Modify the objects we need
 updateUserForm.addEventListener("submit", function (e) {
@@ -8,35 +8,25 @@ updateUserForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
     // Get form fields we need to get data from
-    let inputID = document.getElementById("upSelect");
-    let inputVersion = document.getElementById("upVersionInput");
-    let inputRelDate = document.getElementById("relDateInput");
-    let inputUpSize = document.getElementById("upSizeInput")
-    let inputStatus = document.getElementById("upStatusInput");
+    let inputID = document.getElementById("serIDSelect");
+    let inputStatus = document.getElementById("csUpStatus");
 
     let idValue = inputID.value;
-    let versionValue = inputVersion.value;
-    let relDateValue = inputRelDate.value;
-    let upSizeValue = inputUpSize.value;
     let statusValue = inputStatus.value;
 
-    /*
     if(versionValue = '') {
         versionValue = null;
     }
- */
+ 
     // Put our data we want to send in a javascript object
     let data = {
-        updateID: idValue,
-        updateVersion: versionValue,
-        releaseDate:relDateValue,
-        updateSize:upSizeValue,
+        serviceID: idValue,
         status: statusValue
     }
     
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
-    xhttp.open("PUT", "/put-update-ajax", true);
+    xhttp.open("PUT", "/put-customerService-ajax", true);
     xhttp.setRequestHeader("Content-type", "application/json");
 
     // Tell our AJAX request how to resolve
@@ -61,7 +51,7 @@ updateUserForm.addEventListener("submit", function (e) {
 function updateUpRow(data, name){
     let parsedData = JSON.parse(data);
     
-    let table = document.getElementById("updateTable");
+    let table = document.getElementById("csTable");
 
     for (let i = 0, row; row = table.rows[i]; i++) {
        //iterate through rows
@@ -72,16 +62,20 @@ function updateUpRow(data, name){
             let updateRowIndex = table.getElementsByTagName("tr")[i];
 
             // Get td of homeworld value
-            let tdVersion = updateRowIndex.getElementsByTagName("td")[3];
-            let tdRelease = updateRowIndex.getElementsByTagName("td")[4];
-            let tdSize = updateRowIndex.getElementsByTagName("td")[5];
-            let tdStatus = updateRowIndex.getElementsByTagName("td")[6];
+            let tdService = updateRowIndex.getElementsByTagName("td")[2];
+            let tdUser = updateRowIndex.getElementsByTagName("td")[3];
+            let tdAppliance = updateRowIndex.getElementsByTagName("td")[4];
+            let tdDescription = updateRowIndex.getElementsByTagName("td")[5];
+            let tdDate = updateRowIndex.getElementsByTagName("td")[6];
+            let tdStatus = updateRowIndex.getElementsByTagName("td")[7];
 
-            // Reassign homeworld to our value we updated to
-            tdVersion.innerHTML = parsedData[0].updateVersion;
-            tdRelease.innerHTML = parsedData[0].releaseDate;
-            tdSize.innerHTML = parsedData[0].updateSize;
-            tdStatus.innerHTML = parsedData[0].status; 
+            tdService.innerHTML = parsedData[0].serviceID;
+            tdUser.innerHTML = parsedData[0].userID;
+            tdAppliance.innerHTML = parsedData[0].applianceID;
+            tdDescription.innerHTML = parsedData[0].issueDescription;
+            tdDate.innerHTML = parsedData[0].dateReported;
+            tdStatus.innerHTML = parsedData[0].resolutionStatus;
+  
        }
     }
 }
