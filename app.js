@@ -111,22 +111,22 @@ app.delete('/delete-user-ajax', function(req,res,next){
 
   app.put('/put-user-ajax', function(req,res,next){
     let data = req.body;
-    console.log("in backend");
+    //console.log("in backend");
 
     let id = parseInt(data.id);
     let email = data.email;
     let address = data.address;
     let phone = parseInt(data.phone);
 
-    if(isNaN(phone)) {
-        phone = null;
-    }
+    console.log(email);
+    console.log(address);
+    console.log(phone);
   
     let updateUserQuery = `UPDATE Users SET email = ?, address = ?, phone = ? WHERE userID = ?`
     let selectUser = `SELECT * FROM Users WHERE userID = ?`
   
           // Run the 1st query
-          db.pool.query(updateUserQuery, [email, address, phone, id], function(error, rows, fields){
+          db.pool.query(updateUserQuery, [data.email, data.address, data.phone, data.id], function(error, rows, fields){
               if (error) {
   
               // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
@@ -244,16 +244,16 @@ app.delete('/delete-update-ajax', function(req,res,next){
     let data = req.body;
   
     let updateID = parseInt(data.updateID);
-    let updateVersion = data.updateVersion;
-    let releaseDate = data.releaseDate;
-    let updateSize = parseInt(data.updateSize);
-    let status = parseInt(data.status);
+    //let updateVersion = parseInt(data.updateVersion);
+    //let releaseDate = data.releaseDate;
+    //let updateSize = parseInt(data.updateSize);
+    //let status = parseInt(data.status);
   
     let updateUpdateQuery = `UPDATE OTA_Updates SET updateVersion=?, releaseDate=?, updateSize= ?, status= ? WHERE updateID= ?`
     let selectUpdate = `SELECT * FROM OTA_Updates WHERE updateID = ?`
   
           // Run the 1st query
-          db.pool.query(updateUpdateQuery, [updateVersion, releaseDate, updateSize, status, updateID], function(error, rows, fields){
+          db.pool.query(updateUpdateQuery, [data.updateVersion, data.releaseDate, data.updateSize, data.status, updateID], function(error, rows, fields){
               if (error) {
   
               // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.

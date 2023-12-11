@@ -20,10 +20,11 @@ updateUserForm.addEventListener("submit", function (e) {
     let upSizeValue = inputUpSize.value;
     let statusValue = inputStatus.value;
 
+    /*
     if(versionValue = '') {
         versionValue = null;
     }
- 
+ */
     // Put our data we want to send in a javascript object
     let data = {
         updateID: idValue,

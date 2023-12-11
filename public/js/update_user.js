@@ -28,7 +28,7 @@ updateUserForm.addEventListener("submit", function (e) {
         return;
     }
     if(isNaN(phoneValue)) {
-        phoneValue = null;
+        return;
     }
 
 
