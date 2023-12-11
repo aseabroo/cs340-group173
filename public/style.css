@@ -115,6 +115,13 @@ div#delete {
     display: block;
 }
 
+#input-userID {
+    height: auto; /* Adjust height as needed */
+    max-height: 100px; /* Maximum height before scrolling */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     nav a {

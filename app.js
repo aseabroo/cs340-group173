@@ -3,7 +3,7 @@
 */
 
 // Express
-PORT        = 8081;
+PORT        = 9988;
 var express = require('express');   // We are using the express library for the web server
 var app     = express();            // We need to instantiate an express object to interact with the server in our code
 app.use(express.json())
@@ -34,6 +34,7 @@ app.get('/', function(req, res)
         })
     });   
 
+
 /*---------------------------------------------------------------------------------------
 Implementation of Users page
 ---------------------------------------------------------------------------------------*/
@@ -41,7 +42,7 @@ Implementation of Users page
 app.get('/users', function(req,res) {
     let usersDisplay = `SELECT * FROM Users;`;
 
-    db.pool.query(usersDisplay, function(error, rows, feilds) {
+    db.pool.query(usersDisplay, function(error, rows, fields) {
         res.render('users', {usersData: rows})
     })
 });
@@ -148,7 +149,7 @@ Implementation of OTA_Updates page
 app.get('/ota_updates', function(req,res) {
     let updatesDisplay = `SELECT * FROM OTA_Updates;`;
 
-    db.pool.query(updatesDisplay, function(error, rows, feilds) {
+    db.pool.query(updatesDisplay, function(error, rows, fields) {
         res.render('ota_updates', {updatesData: rows})
     })
 });
@@ -400,59 +401,121 @@ app.put('/put-customerService-ajax', function(req,res,next){
 Implementation of Appliances page
 ---------------------------------------------------------------------------------------*/
 
-app.post('/add-appliance-ajax', function(req, res) 
-{
-    // Capture the incoming data and parse it back to a JS object
-    let data = req.body;
-
-    // Capture NULL values
-    let lastUpdated = parseInt(data.lastUpdated);
-    if (isNaN(lastUpdated))
-    {
-        lastUpdated = 'NULL'
-    }
-
-    let userID = parseInt(data.userID);
-    if (isNaN(userID))
-    {
-        userID = 'NULL'
-    }
-
-    // Create the query and run it on the database
-    query1 = `INSERT INTO Appliances (model, datePurchased, lastUpdated, userID) VALUES ('${data.model}', '${data.datePurchased}', ${lastUpdated}, ${userID})`;
-    db.pool.query(query1, function(error, rows, fields){
-
-        // Check to see if there was an error
-        if (error) {
-
-            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-            console.log(error)
-            res.sendStatus(400);
-        }
-        else
-        {
-            // If there was no error, perform a SELECT * on bsg_people
-            query2 = `SELECT * FROM Appliances;`;
-            db.pool.query(query2, function(error, rows, fields){
-
-                // If there was an error on the second query, send a 400
-                if (error) {
-                    
-                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-                    console.log(error);
-                    res.sendStatus(400);
+app.get('/appliances', function(req,res) {
+    let appliancesDisplay = `SELECT * FROM Appliances;`;
+    let userIDsQuery = `SELECT DISTINCT userID FROM Users;`;
+       // Execute the query to fetch appliances
+       db.pool.query(appliancesDisplay, function(appliancesError, appliancesRows) {
+        if (appliancesError) {
+            // Handle the error appropriately, perhaps render an error page
+            res.send('Error fetching appliances');
+        } else {
+            // Execute the query to fetch user IDs
+            db.pool.query(userIDsQuery, function(userIDsError, userIDsRows) {
+                if (userIDsError) {
+                    // Handle the error appropriately
+                    res.send('Error fetching user IDs');
+                } else {
+                    // Render the appliances.hbs template with both sets of data
+                    res.render('appliances', {
+                        appliancesData: appliancesRows,
+                        userIDs: userIDsRows
+                    });
                 }
-                // If all went well, send the results of the query back.
-                else
-                {
-                    res.send(rows);
-                }
-            })
+            });
         }
-    })
+    });
 });
 
+app.post('/add-appliance-ajax', function(req, res) {
+   // Capture the incoming data and parse it back to a JS object
+   let data = req.body;
+   // Create the query and run it on the database
+   query1 = `INSERT INTO Appliances (model, datePurchased, lastUpdated , userID) VALUES ( '${data.model}', '${data.datePurchased}', '${data.lastUpdated}', '${data.userID}')`;
+   db.pool.query(query1, function(error, rows, fields){
 
+       // Check to see if there was an error
+       if (error) {
+
+           // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+           console.log(error)
+           res.sendStatus(400);
+       }
+       else
+       {
+           // If there was no error, perform a SELECT * on bsg_people
+           query2 = `SELECT * FROM Appliances;`;
+           db.pool.query(query2, function(error, rows, fields){
+
+               // If there was an error on the second query, send a 400
+               if (error) {
+                   
+                   // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                   console.log(error);
+                   res.sendStatus(400);
+               }
+               // If all went well, send the results of the query back.
+               else
+               {
+                   res.send(rows);
+               }
+           })
+       }
+   })   
+
+});
+
+app.put('/put-appliance-ajax', function(req,res,next){
+    let data = req.body;
+  
+    let applianceID = data.applianceID;
+    let model = data.model;
+    let datePurchased = data.datePurchased;
+    let lastUpdated = data.lastUpdated;
+    let userID = data.userID;
+  
+    let updateApplianceQuery = `
+    UPDATE Appliances 
+    SET 
+        model = COALESCE(?, model),
+        datePurchased = COALESCE(?, datePurchased),
+        lastUpdated = COALESCE(?, lastUpdated),
+        userID = COALESCE(?, userID)
+    WHERE applianceID = ?
+    `;
+  
+          // Run the 1st query
+          db.pool.query(updateApplianceQuery, [model, datePurchased, lastUpdated, userID, applianceID], function(error, rows, fields){
+              if (error) {
+  
+              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+              console.log(error);
+              res.sendStatus(400);
+
+            } else {
+                res.send(rows);
+            }
+  })});
+
+
+
+app.delete('/delete-appliance-ajax', function(req,res,next){
+    let data = req.body;
+    let applianceID = parseInt(data.id);
+    let deleteAppliance = `DELETE FROM Appliances WHERE applianceID = ?`;
+  
+          // Run the 1st query
+          db.pool.query(deleteAppliance, [applianceID], function(error, rows, fields){
+              if (error) {
+  
+              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+              console.log(error);
+              res.sendStatus(400);
+              } else {
+                res.sendStatus(204);
+            }
+              
+  })});
 
 /*
     LISTENER
