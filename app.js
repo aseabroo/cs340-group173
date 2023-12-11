@@ -117,10 +117,6 @@ app.delete('/delete-user-ajax', function(req,res,next){
     let email = data.email;
     let address = data.address;
     let phone = parseInt(data.phone);
-
-    console.log(email);
-    console.log(address);
-    console.log(phone);
   
     let updateUserQuery = `UPDATE Users SET email = ?, address = ?, phone = ? WHERE userID = ?`
     let selectUser = `SELECT * FROM Users WHERE userID = ?`
