@@ -350,7 +350,6 @@ app.post('/add-customerService-ajax', function(req,res){
 });
 
 
-
 app.delete('/delete-customerService-ajax', function(req,res,next){
     let data = req.body;
     let serviceID = parseInt(data.id);
@@ -368,6 +367,38 @@ app.delete('/delete-customerService-ajax', function(req,res,next){
             }
               
   })});
+
+
+app.put('/put-customerService-ajax', function(req,res,next){
+    let data = req.body;
+  
+    let serviceID = data.serviceID;
+    let resolutionStatus = data.status;
+  
+    let updateCSQuery = `UPDATE CustomerServices SET resolutionStatus=? WHERE serviceID= ?`
+    let selectService = `SELECT * FROM CustomerServices WHERE serviceID = ?`
+  
+          // Run the 1st query
+          db.pool.query(updateCSQuery, [resolutionStatus, serviceID], function(error, rows, fields){
+              if (error) {
+  
+              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+              console.log(error);
+              res.sendStatus(400);
+
+            } else {
+                db.pool.query(selectService, [serviceID], function(error, rows, fields) {
+
+                    if (error) {
+                        console.log(error);
+                        res.sendStatus(400);
+                    } else {
+                        res.send(rows);
+                    }
+                })
+            }
+  })});
+
 
 /*---------------------------------------------------------------------------------------
 Implementation of Appliances page
