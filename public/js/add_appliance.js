@@ -1,5 +1,5 @@
 // Get the objects we need to modify
-let addApplianceForm = document.getElementById('add-appliance-form-ajax');
+let addApplianceForm = document.getElementById('addAppliance');
 
 // Modify the objects we need
 addApplianceForm.addEventListener("submit", function (e) {
@@ -16,14 +16,14 @@ addApplianceForm.addEventListener("submit", function (e) {
     // Get the values from the form fields
     let modelValue = inputModel.value;
     let datePurchasedValue = inputDatePurchased.value;
-    let lastUpdateValue = inputLastUpdated.value;
+    let lastUpdatedValue = inputLastUpdated.value;
     let userIDValue = inputUserID.value;
 
     // Put our data we want to send in a javascript object
     let data = {
         model: modelValue,
         datePurchased : datePurchasedValue,
-        lastUpdate: lastUpdateValue,
+        lastUpdated: lastUpdatedValue,
         userID: userIDValue
     }
     
@@ -61,7 +61,7 @@ addApplianceForm.addEventListener("submit", function (e) {
 addRowToTable = (data) => {
 
     // Get a reference to the current table on the page and clear it out.
-    let currentTable = document.getElementById("appliances-table");
+    let currentTable = document.getElementById("applianceTable");
 
     // Get the location where we should insert the new row (end of table)
     let newRowIndex = currentTable.rows.length;
@@ -70,26 +70,45 @@ addRowToTable = (data) => {
     let parsedData = JSON.parse(data);
     let newRow = parsedData[parsedData.length - 1]
 
+    // Create 'Edit' link
+    let editLink = document.createElement("a");
+    editLink.href = "#";
+    editLink.innerText = "Edit";
+    editLink.onclick = function() { updateAppliance(newRow.applianceID); };
+    
+    // Create 'Delete' button
+    let deleteButton = document.createElement("button");
+    deleteButton.innerText = "Delete";
+    deleteButton.onclick = function() { deleteAppliance(newRow.applianceID); };
+    
+
     // Create a row and 4 cells
     let row = document.createElement("TR");
+    let editCell = document.createElement("TD");
+    let delCell = document.createElement("TD");
     let idCell = document.createElement("TD");
     let modelCell = document.createElement("TD");
     let datePurchasedCell = document.createElement("TD");
-    let lastUpdateCell = document.createElement("TD");
+    let lastUpdatedCell = document.createElement("TD");
     let userIDCell = document.createElement("TD");
 
     // Fill the cells with correct data
-    idCell.innerText = newRow.id;
+    editLink.innerText = "Edit";
+    idCell.innerText = newRow.applianceID;
     modelCell.innerText = newRow.model;
     datePurchasedCell.innerText = newRow.datePurchased;
-    lastUpdateCell.innerText = newRow.lastUpdate;
+    lastUpdatedCell.innerText = newRow.lastUpdated;
     userIDCell.innerText = newRow.userID;
 
     // Add the cells to the row 
+    editCell.appendChild(editLink);
+    delCell.appendChild(deleteButton);
+    row.appendChild(editCell);
+    row.appendChild(delCell);
     row.appendChild(idCell);
     row.appendChild(modelCell);
     row.appendChild(datePurchasedCell);
-    row.appendChild(lastUpdateCell);
+    row.appendChild(lastUpdatedCell);
     row.appendChild(userIDCell);
     
     // Add the row to the table
