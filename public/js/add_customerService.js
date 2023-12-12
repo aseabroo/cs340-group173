@@ -31,7 +31,7 @@ addUserForm.addEventListener("submit", function (e) {
     let dataValue = dateInput.value;
     let statusValue = statusInput.value;
 
-    if(userID == '' || issueValue == '' || dataValue == '') {
+    if(userValue == '' || issueValue == '' || dataValue == '') {
         return;
     }
 
