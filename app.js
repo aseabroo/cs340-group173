@@ -551,7 +551,7 @@ app.post('/add-appliance-ajax', function(req, res) {
 app.put('/put-appliance-ajax', function(req, res, next) {
     let data = req.body;
     let applianceID = parseInt(data.applianceID);
-
+    console.log(data, 'app.js');
     // Validate applianceID to ensure it's a number
     if (isNaN(applianceID)) {
         console.log("Invalid applianceID");
