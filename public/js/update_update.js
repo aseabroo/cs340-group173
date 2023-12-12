@@ -1,3 +1,13 @@
+/**
+ * JavaScript for handling the update appliance form submission and table update.
+ *
+ * Citation:
+ * Function Description: JavaScript code for handling form submission and updating table data on a webpage.
+ * Date: 12/11/2023
+ * Originality: Adapted from OSU CS340 and shortened, cleaned and reformatted code for clarity and readability.
+ * Source URL:https://github.com/osu-cs340-ecampus/nodejs-starter-app/blob/main/Step%208%20-%20Dynamically%20Updating%20Data/public/js/update_person.js
+ * 
+ */
 // Get the objects we need to modify
 let updateUserForm = document.getElementById('update-update-form-ajax');
 
