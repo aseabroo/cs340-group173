@@ -1,150 +1,134 @@
+<!DOCTYPE html>
+<!--
+  # Function showform controls visibility of different sections. Helper functions that use showform are implemented as well.
+  # Date: 12/11/2023
+  # Originality: Adapted from stackoverflow. Recycled the function to suit the needs for the page.
+  # Source URL: https://stackoverflow.com/questions/14681660/show-form-elements-using-javascript
+ 
+  # Function resetAndBrowse resets the add appliance form and navigates to browsing view
+  # Date: 12/11/2023
+  # Originality: Adapted from stackoverflow. Recycled function to suit the needs of the application.
+  # Source URL: https://stackoverflow.com/questions/8152904/call-a-function-after-form-reset
+ 
+  # Function filterAppliances filters the appliance list based on the model entered in the box
+  # Date: 12/11/2023
+  # Originality: Adapted from stackoverflow. Recycled the function to suit the needs of the application.
+  # Source URL: https://stackoverflow.com/questions/3065342/how-do-i-iterate-through-table-rows-and-cells-in-javascript
+ -->
 <html>
 <head>
-<title>Appliances</title>
-<link href="style.css" rel="stylesheet" type="text/css" />
-<script language="JavaScript">
-		function showform(dowhat) {
-			/*
-			* four DIVS: browse, insert, update, delete
-			* this function sets one visible the others not
-      * REMOVE OPTION TO remove and update applianceID
-			*/
-			if (dowhat == 'insert'){
-				document.getElementById('browse').style.display = 'none';
-				document.getElementById('insert').style.display = 'block';
-				document.getElementById('update').style.display = 'none';
-				document.getElementById('delete').style.display = 'none';
-			}
-			else if (dowhat == 'update'){
-				document.getElementById('browse').style.display = 'none';
-				document.getElementById('insert').style.display = 'none';
-				document.getElementById('update').style.display = 'block';
-			}
-			else if (dowhat == 'delete'){
-				document.getElementById('browse').style.display = 'none';
-				document.getElementById('insert').style.display = 'none';
-				document.getElementById('update').style.display = 'none';
-				document.getElementById('delete').style.display = 'block';
-			}
-      else if (dowhat == 'all'){
-				document.getElementById('browse').style.display = 'block';
-				document.getElementById('insert').style.display = 'block';
-				document.getElementById('update').style.display = 'block';
-				document.getElementById('delete').style.display = 'block';
-			}
-			else { //by default display browse
-				document.getElementById('browse').style.display = 'block';
-				document.getElementById('insert').style.display = 'none';
-				document.getElementById('update').style.display = 'none';
-			}
-		}
-    
-    
+  <title>Appliances</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <script language="JavaScript">
+    // Function to control the visibility of different sections
+    function showform(dowhat) {
+      const sections = ['browse', 'insert', 'update', 'delete'];
+      sections.forEach(section => {
+        // Show the seciton if it matches the action or if 'all' is specified
+          document.getElementById(section).style.display = dowhat === section || dowhat === 'all' ? 'block' : 'none';
+      });
+    }
+
+    // Resets the add appliance form and navigates back to the browsing view
     function resetAndBrowse() {
-    // Reset the form fields
-    document.getElementById('addAppliance').reset();
+      document.getElementById('addAppliance').reset();
+      browseAppliances();
+    }
 
-    // Navigate back to the appliance browsing view
-    browseAppliances();
-}
-
-    // JavaScript function for filtering the appliance list
+    // Filters the appliance list based on the model entered in the box
     function filterAppliances() {
-      var input, filter, table, tr, td, i, txtValue;
-      input = document.getElementById("searchBox");
-      filter = input.value.toUpperCase();
-      table = document.getElementById("applianceTable");
-      tr = table.getElementsByTagName("tr");
-
-      for (i = 1; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[3]; // Index 4 is for the 'model' column
-        if (td) {
-          txtValue = td.textContent || td.innerText;
-          if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            tr[i].style.display = "";
-          } else {
-            tr[i].style.display = "none";
+      const input = document.getElementById("searchBox").value.toUpperCase();
+      const rows = document.getElementById("applianceTable").getElementsByTagName("tr");
+      
+      // Iterate through each row in the table to filter the data
+      for (let i = 1; i < rows.length; i++) {
+          const modelCell = rows[i].getElementsByTagName("td")[3];
+          if (modelCell) {
+              const txtValue = modelCell.textContent || modelCell.innerText;
+              // Dispaly the row if the model matches the search input
+              rows[i].style.display = txtValue.toUpperCase().indexOf(input) > -1 ? "" : "none";
           }
-        }       
       }
     }
+
+    // Helper functions to show specific forms or sections based on user interaction
     function newAppliance() { showform('insert'); }
-    function updateAppliance(pid) { showform('update'); }
-    function deleteAppliance(pid) { showform ('delete'); }
-    function browseAppliance() { showform ('browse'); }
-    function showAll() { showform ('all'); }
-</script>
+    function updateAppliance(applianceID) { 
+      // Display the update form
+      showform('update'); 
+      
+      // Set the vaue of the applianceIDSelect dropdown to the selected applianceID
+      document.getElementById('applianceIDSelect').value = applianceID;
+      }
+    function deleteAppliance(pid) { showform('delete'); }
+    function browseAppliance() { showform('browse'); }
+    function showAll() { showform('all'); }
+  </script>
 </head>
 
 <body onload="browseAppliance()">
-<h1>Appliances</h1>
-<nav>
-    [ <a href="users">Users</a> | <a href="appliances">Appliances</a> | <a href="ota_updates">OTA_Updates</a>  | <a href="customerservices">CustomerServices</a> | <a href="ota_updatesappliances">OTA_UpdatesAppliances</a>  ]
-    </nav>
-<div id="browse">
-<p><a href="#" onClick="showAll()">Display all forms</a> </p>
-
-<!-- Search input field -->
- <input type="text" id="searchBox" onkeyup="filterAppliances()" placeholder="Search by Model...">
-<div id="searchResults"></div>
-
-
-
-<!-- Handlebars templating to create the table to appliances in the database -->
-<table border="1" cellpadding="5" id="applianceTable">
-  <tr>
-    <th><a href="#" onClick="newAppliance()">New</a></th>
-    <th></th>
-    {{#each appliancesData.[0]}}
-        <th>{{@key}}</th>
-    {{/each}}
-  </tr>
-  {{#each appliancesData}}
-  <tr data-value={{this.applianceID}}>
-    <td><a href="#" onClick="updateAppliance({{this.applianceID}})">Edit</a></td>
-    <td><button onclick="deleteAppliance({{this.applianceID}})">Delete</button></td>
-    <td align="right" >{{this.applianceID}}</td>
-    <td >{{this.model}}</td>
-    <td >{{this.datePurchased}}</td>
-    <td>{{this.lastUpdated}}</td>
-    <td>{{this.userID}}</td>
-  </tr>
-  {{/each}}
-</table>
-<script src="./js/delete_appliance.js"></script>
-
-
-
-
-<p>&nbsp;</p>
-</div> <!-- browse -->
-<div id="insert">
-    <form method="POST" id="addAppliance">
-        <legend><strong>Add Appliance</strong></legend>
+  <h1>Appliances</h1>
+  <nav>
+      [ <a href="users">Users</a> | <a href="appliances">Appliances</a> | <a href="ota_updates">OTA_Updates</a>  | <a href="customerservices">CustomerServices</a> | <a href="ota_updatesappliances">OTA_UpdatesAppliances</a>  ]
+  </nav>
+  <div id="browse">
+    <p><a href="#" onClick="showAll()">Display all forms</a></p>
+    <!-- Search input field -->
+    <input type="text" id="searchBox" onkeyup="filterAppliances()" placeholder="Search by Model...">
+    <div id="searchResults"></div>
+      
+    <!-- Handlebars templating to create the table to appliances in the database -->
+    <table border="1" cellpadding="5" id="applianceTable">
+      <tr>
+        <th><a href="#" onClick="newAppliance()">New</a></th>
+        <th></th>
+        <!-- Dynamically generate table headers -->
+        {{#each appliancesData.[0]}}
+            <th>{{@key}}</th>
+        {{/each}}
+      </tr>
+      <!-- Dynamically generate table rows -->
+      {{#each appliancesData}}
+      <tr data-value={{this.applianceID}}>
+        <td><a href="#" onClick="updateAppliance('{{this.applianceID}}')">Edit</a></td>
+        <td><button onclick="deleteAppliance({{this.applianceID}})">Delete</button></td>
+        <!-- Data fields -->
+        <td align="right" >{{this.applianceID}}</td>
+        <td >{{this.model}}</td>
+        <td >{{this.datePurchased}}</td>
+        <td>{{this.lastUpdated}}</td>
+        <td>{{this.userID}}</td>
+      </tr>
+      {{/each}}
+    </table>
+  <script src="./js/delete_appliance.js"></script>
+  </div> 
+  <div id="insert">
+      <form method="POST" id="addAppliance">
+        <!-- Form fields for adding a new appliance -->
+          <legend><strong>Add Appliance</strong></legend>
           <fieldset class="fields">
             <label> User ID </label> 
-               <select name="userID" id="input-userID">
+            <select name="userID" id="input-userID">
               <option value="">Select a User</option>
-                  {{#each userIDs}}
-                  <option value="{{this.userID}}">{{this.userID}}</option>
-                  {{/each}}
-                </select>
+              {{#each userIDs}}
+              <option value="{{this.userID}}">{{this.userID}}</option>
+              {{/each}}
+            </select>
             <label> Model </label> <input type="text" name="model" id="input-model">
             <label>Date Purchased </label> <input type="date" name="datePurchased" id="input-datePurchased">
             <label> Last Updated </label> <input type="date" name="lastUpdated" id="input-lastUpdated" >
-      </fieldset>
-          <input class="btn" type="submit" id="addAppliance" value="Add Appliance">
-          <input class="btn" type="button" value="cancel" onClick="resetAndBrowse()">
-	</form> 
-    <script src="./js/add_appliance.js"></script>
-</div>
-
-<!-- insert -->
-<p>&nbsp;</p>
-<div id="update">
-    <form method="POST" id="update-appliance-form-ajax">
+        </fieldset>
+        <input class="btn" type="submit" id="addAppliance" value="Add Appliance">
+        <input class="btn" type="button" value="cancel" onClick="resetAndBrowse()">
+      </form> 
+      <script src="./js/add_appliance.js"></script>
+  </div>
+  <div id="update">
+      <form method="POST" id="update-appliance-form-ajax">
+        <!-- Form fields for updating an appliance -->
         <legend><strong>Update Appliance</strong></legend>
-          <fieldset class="fields">
+        <fieldset class="fields">
           <label for="input-applianceID"> Appliance ID: </label>
           <select name="input-applianceID" id="applianceIDSelect">
             <option value="test">Select an Appliance ID</option>
@@ -152,23 +136,21 @@
             <option value="{{this.applianceID}}">{{this.applianceID}}</option>
             {{/each}}
           </select>
-          
           <label> Model </label> <input type="text" name="model" id="input-modelUpdate">
           <label> Date Purchased </label> <input type="date" name="datePurchased" id="input-datePurchasedUpdate" value="2021-03-15">
           <label> Last Updated </label> <input type="date" name="lastUpdated" id="input-lastUpdatedUpdate" value="2023-03-21">
-        <label for="input-userID"> User ID: </label>
+          <label for="input-userID"> User ID: </label>
           <select id="input-userIDUpdate" name="userIDSelect">
             <option value="test">Select a User ID</option>
             {{#each appliancesData}}
             <option value="{{this.userID}}">{{this.userID}}</option>
             {{/each}}
           </select>
-      </fieldset>
+        </fieldset>
           <input class="btn" type="submit" id="update-appliance-form-ajax" value="Save Update Appliance">
           <input class="btn" type="button" value="cancel" onClick="browseAppliances()">
-	</form> <script src="./js/update_appliance.js"></script>
-</div>
-
-
+        </form>
+        <script src="./js/update_appliance.js"></script>
+  </div>
 </body>
 </html>
