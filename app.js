@@ -521,8 +521,12 @@ app.get('/appliances', function(req,res) {
 app.post('/add-appliance-ajax', function(req, res) {
    // Capture the incoming data and parse it back to a JS object
    let data = req.body;
+   let userID = parseInt(body.userID);
+   if(userID == 'NULL') {
+        userID = null;
+   }
    // Create the query and run it on the database
-   query1 = `INSERT INTO Appliances (model, datePurchased, lastUpdated , userID) VALUES ( '${data.model}', '${data.datePurchased}', '${data.lastUpdated}', '${data.userID}')`;
+   query1 = `INSERT INTO Appliances (model, datePurchased, lastUpdated , userID) VALUES ( '${data.model}', '${data.datePurchased}', '${data.lastUpdated}', '${userID}')`;
    db.pool.query(query1, function(error, rows, fields){
 
        // Check to see if there was an error
@@ -567,6 +571,8 @@ app.put('/put-appliance-ajax', function(req, res, next) {
         return res.sendStatus(400); // Bad request
     }
 
+    if(data.userID == 'NULL')
+        userID = null;
     let updateApplianceQuery = `UPDATE Appliances SET model = ?, datePurchased = ?, lastUpdated = ?, userID= ? WHERE applianceID = ?`;
 
     // Execute the update query
