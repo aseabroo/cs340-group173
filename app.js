@@ -560,7 +560,7 @@ app.put('/put-appliance-ajax', function(req, res, next) {
     let data = req.body;
     let applianceID = parseInt(data.applianceID);
     let userID = parseInt(data.userID);
-    console.log(data, 'app.js');
+    //console.log(data, 'app.js');
     // Validate applianceID to ensure it's a number
     if (isNaN(applianceID)) {
         console.log("Invalid applianceID");
