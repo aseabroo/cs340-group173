@@ -551,6 +551,7 @@ app.post('/add-appliance-ajax', function(req, res) {
 app.put('/put-appliance-ajax', function(req, res, next) {
     let data = req.body;
     let applianceID = parseInt(data.applianceID);
+    let userID = parseInt(data.userID);
     console.log(data, 'app.js');
     // Validate applianceID to ensure it's a number
     if (isNaN(applianceID)) {
@@ -558,10 +559,10 @@ app.put('/put-appliance-ajax', function(req, res, next) {
         return res.sendStatus(400); // Bad request
     }
 
-    let updateApplianceQuery = `UPDATE Appliances SET model = ?, datePurchased = ?, lastUpdated = ? WHERE applianceID = ?`;
+    let updateApplianceQuery = `UPDATE Appliances SET model = ?, datePurchased = ?, lastUpdated = ?, userID= ? WHERE applianceID = ?`;
 
     // Execute the update query
-    db.pool.query(updateApplianceQuery, [data.model, data.datePurchased, data.lastUpdated, applianceID], function(error, rows, fields) {
+    db.pool.query(updateApplianceQuery, [data.model, data.datePurchased, data.lastUpdated, userID, applianceID], function(error, rows, fields) {
         if (error) {
             // Log the error to the console and send a 400 Bad Request response
             console.log(error);

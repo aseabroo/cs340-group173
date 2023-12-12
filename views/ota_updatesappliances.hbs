@@ -58,13 +58,11 @@
 <table border="1" cellpadding="5" id="OTA_UpApTable">
   <tr>
     <th><a href="#" onClick="newOTA_UpdateAppliance()">New</a></th>
-    <th>
     <th>OTA Updates Update</th>
     <th>Appliances Appliance ID</th>
   </tr>
   {{#each UppApp}}
   <tr data-value='{{this.otaUpdatesUpdateID}},{{this.appliancesApplianceID}}'>
-    <td><a href="#" onClick="updateUpApp({{this.otaUpdatesUpdateID}},{{this.appliancesApplianceID}})">Edit</a></td>
     <td><button onclick="deleteUpApp({{this.otaUpdatesUpdateID}},{{this.appliancesApplianceID}})">Delete</button></td>
     <td>{{this.otaUpdatesUpdateID}}</td>
     <td>{{this.appliancesApplianceID}}</td>

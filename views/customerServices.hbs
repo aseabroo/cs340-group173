@@ -69,7 +69,7 @@
   {{#each csData}}
   <tr data-value="{{this.serviceID}}">
     <td><a href="#" onClick="updateCustomerService('this.serviceID')">Edit</a></td>
-    <td><a href="#" onclick="deleteCS('{{this.serviceID}}')">Delete</a></td>
+    <td><button href="#" onclick="deleteCS('{{this.serviceID}}')">Delete</button></td>
     <td align="right" >{{this.serviceID}}</td>
     <td >{{this.userID}}</td>
     <td align="right" >{{this.applianceID}}</td>
