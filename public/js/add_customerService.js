@@ -1,3 +1,13 @@
+/**
+ * JavaScript for handling the addition of appliances and dynamically updating the table.
+ *
+ * Citation:
+ * Function Description: JavaScript code for handling the addition of appliance data via form submission and dynamically updating the customer service table.
+ * Date: 12/11/2023
+ * Originality: Adapted and refactored for specific use in an appliance management application. Code structure and logic were modified for the specific requirements of the application.
+ * Source URL:  https://github.com/osu-cs340-ecampus/nodejs-starter-app/blob/main/Step%208%20-%20Dynamically%20Updating%20Data/public/js/add_person.js
+ */
+
 // Get the objects we need to modify
 let addUserForm = document.getElementById('addCustomerService');
 
@@ -8,14 +18,13 @@ addUserForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
     // Get form fields we need to get data from
-
     let userInput = document.getElementById("customerInput");
     let applianceInput = document.getElementById("customerAppliance");
     let issueInput = document.getElementById("issueDescription");
     let dateInput = document.getElementById("dateReported");
     let statusInput = document.getElementById("csStatus")
+    
     // Get the values from the form fields
-
     let userValue = userInput.value;
     let applianceValue = applianceInput.value;
     let issueValue = issueInput.value;
@@ -44,7 +53,6 @@ addUserForm.addEventListener("submit", function (e) {
             addRowToTable(xhttp.response);
 
             // Clear the input fields for another transaction
-
             userInput.value = '';
             applianceInput.value = '';
             issueInput.value = '';
@@ -62,8 +70,7 @@ addUserForm.addEventListener("submit", function (e) {
 })
 
 
-// Creates a single row from an Object representing a single record from 
-// bsg_people
+// Creates a single row from an Object representing a single record 
 addRowToTable = (data) => {
 
     // Get a reference to the current table on the page and clear it out.
@@ -99,15 +106,6 @@ addRowToTable = (data) => {
     delCell = document.createElement("button");
     delCell.innerHTML = "Delete";
     delCell.onclick = function(){deleteCS(newRow.serviceID);}
-/*
-    delA = document.createElement("a");
-    delA.innerHTML = "Delete";
-    delA.href = "#";
-    delA.onclick = function() {
-        deleteUser(newRow.userID)
-    };
-    delCell.appendChild(delA);
-*/
 
     // Add the cells to the row 
     row.appendChild(editCell);
@@ -118,16 +116,8 @@ addRowToTable = (data) => {
     row.appendChild(issueCell);
     row.appendChild(dateCell);
     row.appendChild(resolutionCell);
-    
     row.setAttribute('data-value', newRow.id)
     // Add the row to the table
     currentTable.appendChild(row);
 
-    // Find drop down menu, create a new option, fill data in the option (full name, id),
-    // then append option to drop down menu so newly created rows via ajax will be found in it without needing a refresh
-    //let selectMenu = document.getElementById("mySelect");
-    //let option = document.createElement("option");
-    //option.text = newRow.name;
-    //option.value = newRow.id;
-    //selectMenu.add(option);
 }

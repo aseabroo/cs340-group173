@@ -1,3 +1,13 @@
+/**
+ * JavaScript for handling  deletion and updating the table.
+ *
+ * Citation:
+ * Function Description: JavaScript code for handling the deletion via AJAX request and dynamically updating the table.
+ * Date: 12/11/2023
+ * Originality: Adapted and refactored for specific use in an appliance management application. The structure and logic have been modified for the specific requirements of the application.
+ * Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/blob/main/Step%208%20-%20Dynamically%20Updating%20Data/public/js/delete_person.js
+ */
+
 function deleteCS(serviceID) {
     // Put our data we want to send in a javascript object
     let data = {

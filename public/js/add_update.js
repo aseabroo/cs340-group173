@@ -1,3 +1,13 @@
+/**
+ * JavaScript for handling the addition of appliances and dynamically updating the table.
+ *
+ * Citation:
+ * Function Description: JavaScript code for handling the addition of appliance data via form submission and dynamically updating the table.
+ * Date: 12/11/2023
+ * Originality: Adapted and refactored for specific use in an appliance management application. Code structure and logic were modified for the specific requirements of the application.
+ * Source URL:  https://github.com/osu-cs340-ecampus/nodejs-starter-app/blob/main/Step%208%20-%20Dynamically%20Updating%20Data/public/js/add_person.js
+ */
+
 // Get the objects we need to modify
 let addUserForm = document.getElementById('addUpdate');
 
@@ -93,15 +103,7 @@ addRowToTable = (data) => {
     delCell = document.createElement("button");
     delCell.innerHTML = "Delete";
     delCell.onclick = function(){deleteUpdate(newRow.updateID);}
-/*
-    delA = document.createElement("a");
-    delA.innerHTML = "Delete";
-    delA.href = "#";
-    delA.onclick = function() {
-        deleteUser(newRow.userID)
-    };
-    delCell.appendChild(delA);
-*/
+
 
     // Add the cells to the row 
     row.appendChild(editCell);

@@ -1,8 +1,16 @@
+<!DOCTYPE html>
+<!--
+  # Function showform controls visibility of different sections. Helper functions that use showform are implemented as well.
+  # Date: 12/11/2023
+  # Originality: Adapted from stackoverflow. Recycled the function to suit the needs for the page.
+  # Source URL: https://stackoverflow.com/questions/14681660/show-form-elements-using-javascript
+   -->
 <html>
 <head>
 <title>Customer Services</title>
 <link href="style.css" rel="stylesheet" type="text/css" />
 <script language="JavaScript">
+   // Function to control the visibility of different sections
 		function showform(dowhat) {
 			/*
 			* four DIVS: browse, insert, update, delete
@@ -50,15 +58,20 @@
 <body onload="browseCustomerService()">
 <h1>Customer Services</h1>
 <nav>
+    <!-- Navigation Links -->
     [ <a href="/users">Users</a> | <a href="/appliances">Appliances</a> | <a href="/ota_updates">OTA_Updates</a>  | <a href="/customerservices">CustomerServices</a> | <a href="/ota_updatesappliances">OTA_UpdatesAppliances</a>  ]
     </nav>
+
+<!-- Browse Section -->  
 <div id="browse">
 <p><a href="#" onClick="showAll()">Display all forms</a> </p>
 
+<!-- Handlebars templateing to create the table in the database -->
 <table border="1" cellpadding="5" id="csTable">
+  <!-- Table Headers -->
   <tr>
-    <th><a href="#" onClick="newCustomerService()">New</a></th>
-    <th></th>
+    <th>Edit</th> <!-- Header is for the Edit link -->
+    <th>Delete</th> <!-- Header is for the Delete button -->
     <th>Service ID</th>
     <th>User ID</th>
     <th>Appliance ID</th>
@@ -66,7 +79,9 @@
     <th>Date Reported</th>
     <th>Resolution Status</th>
   </tr>
+  <!-- Dynamically Generated Table Rows -->
   {{#each csData}}
+    <!-- User Data Rows -->
   <tr data-value="{{this.serviceID}}">
     <td><a href="#" onClick="updateCustomerService('this.serviceID')">Edit</a></td>
     <td><button href="#" onclick="deleteCS('{{this.serviceID}}')">Delete</button></td>
@@ -80,9 +95,9 @@
   {{/each}}
 </table>
 <script src="./js/delete_customerService.js"></script>
+</div>
 
-<p>&nbsp;</p>
-</div> <!-- browse -->
+<!-- Insert Section --> 
 <div id="insert">
     <form method="POST" id="addCustomerService">
         <legend><strong>Add Customer Service</strong></legend>
@@ -112,10 +127,9 @@
           <input class="btn" type="submit" id="addCustomerService" value="Add Customer Service">
 	</form> 
     <script src="./js/add_customerService.js"></script>
-</div><!-- insert -->
+</div>
 
-
-<p>&nbsp;</p>
+<!-- Update Section -->
 <div id="update">
     <form method="POST" id="update-services-form-ajax">
         <legend><strong>Update Customer Service</strong></legend>
@@ -139,3 +153,5 @@
 	</form> 
   <script src="./js/update_customerService.js"></script>
 </div>
+</body>
+</html>

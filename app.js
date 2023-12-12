@@ -1,4 +1,13 @@
 /*
+ 
+  # This page handles the routes. 
+  # Date: 12/11/2023
+  # Originality: Adapted from CS340. Recycled function to suit the needs of the application.
+  # Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%208%20-%20Dynamically%20Updating%20Data
+
+*/
+
+/*
     SETUP
 */
 
@@ -8,12 +17,12 @@ var express = require('express');   // We are using the express library for the 
 var app     = express();            // We need to instantiate an express object to interact with the server in our code
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
-app.use(express.static('public'))
+app.use(express.static('public')) // Serving static files
 
-// Database
-var db = require('./database/db-connector')
+// Database connection set up
+var db = require('./database/db-connector') // importing database connector
                     
-// Handlebars
+// Handlebars setup for view engine
 const { engine } = require('express-handlebars');
 var exphbs = require('express-handlebars');     // Import express-handlebars
 app.engine('.hbs', engine({extname: ".hbs"}));  // Create an instance of the handlebars engine to process templates
@@ -21,11 +30,10 @@ app.set('view engine', '.hbs');                 // Tell express to use the handl
 
 /*
     ROUTES
+    Define the routes for the web app. Each route handles different CRUD operations. 
 */
 
-// app.js - ROUTES section
-
-
+// Root route
 app.get('/', function(req, res)
     {
         let query1 = 'SELECT * FROM Appliances'
