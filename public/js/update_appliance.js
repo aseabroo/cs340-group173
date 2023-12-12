@@ -12,7 +12,7 @@
 // Add event listener to the update appliance form to handle form submission
 let updateApplianceForm = document.getElementById('update-appliance-form-ajax');
 updateApplianceForm.addEventListener("submit", function (e) {
-    console.log('submit working');
+    //console.log('submit working');
     e.preventDefault(); // Prevent default form submission
 
     // Get values from form fields
@@ -21,6 +21,10 @@ updateApplianceForm.addEventListener("submit", function (e) {
     let inputDatePurchased = document.getElementById("input-datePurchasedUpdate").value;
     let inputLastUpdated = document.getElementById("input-lastUpdatedUpdate").value;
     let inputUserID = document.getElementById("input-userIDUpdate").value;
+
+    if(inputApplianceID == '' || inputModel == '' || inputDatePurchased == '' || inputLastUpdated == '') {
+        return;
+    }
 
     // Create data object for AJAX request
     let data = {

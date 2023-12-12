@@ -31,6 +31,11 @@ addUserForm.addEventListener("submit", function (e) {
     let dataValue = dateInput.value;
     let statusValue = statusInput.value;
 
+    if(userID == '' || issueValue == '' || dataValue == '') {
+        return;
+    }
+
+
     // Put our data we want to send in a javascript object
     let data = {
         issueDescription: issueValue,

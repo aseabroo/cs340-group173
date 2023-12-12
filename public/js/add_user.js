@@ -29,6 +29,10 @@ addUserForm.addEventListener("submit", function (e) {
     let addressValue = addressInput.value;
     let phoneValue = phoneInput.value;
 
+    if(nameValue == '' || emailValue == '' || addressValue == '') {
+        return;
+    }
+
     // Put our data we want to send in a javascript object
     let data = {
         email: emailValue, 
