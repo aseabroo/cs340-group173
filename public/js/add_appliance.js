@@ -20,7 +20,7 @@ addApplianceForm.addEventListener("submit", function (e) {
     let lastUpdatedValue = document.getElementById("input-lastUpdated").value;
     let userIDValue = document.getElementById("input-userID").value;
 
-    if(inputApplianceID == '' || inputModel == '' || inputDatePurchased == '' || inputLastUpdated == '') {
+    if(modelValue == '' || datePurchasedValue == '' || lastUpdatedValue == '') {
         return;
     }
 
