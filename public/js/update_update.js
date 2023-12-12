@@ -34,7 +34,7 @@ updateUserForm.addEventListener("submit", function (e) {
     if(versionValue = '') {
         versionValue = null;
     }
-    if(NaN(idValue)) {
+    if(isNaN(idValue)) {
         return;
     }
  
