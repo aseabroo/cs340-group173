@@ -63,7 +63,7 @@
     <th>Appliances Appliance ID</th>
   </tr>
   {{#each UppApp}}
-  <tr data-value="[{{this.otaUpdatesUpdateID}},{{this.appliancesApplianceID}}]">
+  <tr data-value='{{this.otaUpdatesUpdateID}},{{this.appliancesApplianceID}}'>
     <td><a href="#" onClick="updateUpApp({{this.otaUpdatesUpdateID}},{{this.appliancesApplianceID}})">Edit</a></td>
     <td><button onclick="deleteUpApp({{this.otaUpdatesUpdateID}},{{this.appliancesApplianceID}})">Delete</button></td>
     <td>{{this.otaUpdatesUpdateID}}</td>
@@ -71,7 +71,7 @@
   </tr>
   {{/each}}
 </table>
-<script src="./js/delete_ota_updatesappliances.js"></script>
+<script src="./js/delete_ota_updatesAppliances.js"></script>
 
 
 <p>&nbsp;</p>
@@ -80,46 +80,26 @@
     <form method="POST" id="addOTA_UpdateAppliance">
         <legend><strong>Add OTA_UpdateAppliance</strong></legend>
           <fieldset class="fields">
-            <input type="hidden" name="otaUpdatesUpdateID" id="updateotaUpdatesUpdateID" value="3001">
             <label> OTA Updates Update: </label> 
-            <select name="otaUpdatesUpdateID" value="3001">
-              <option value="3001" selected>3001</option>
-              <option value="3002">3002</option>
-              <option value="3003">3003</option>
+            <select name="otaUpdatesUpdateID" id="otaUpUpSelect">
+                {{#each otaUpUpData}}
+                    <option value="{{this.updateID}}"> {{this.updateID}} {{this.updateVersion}}</option>
+                {{/each}}
             </select>
-              <label> Appliances Appliance ID </label> 
-              <select name="appliancesApplianceID" value="2001">
-                <option value="2001" selected>2001</option>
-                <option value="2002">2002</option>
-                <option value="2003">2003</option>
-              </select> </fieldset>
+            <label> Appliances Appliance ID </label> 
+            <select name="appliancesApplianceID" id="otaAppAppSelect">
+                {{#each otaAppAppData}}
+                    <option value="{{this.applianceID}}">{{this.applianceID}} {{this.model}}</option>
+                {{/each}}
+            </select> 
+            </fieldset>
           <input class="btn" type="submit" id="addOTA_UpdateAppliance" value="Add OTA_UpdateAppliance">
           <input class="btn" type="button" value="cancel" onClick="browseOTA_UpdatesAppliances()">
-	</form> 
+	</form>
+    <script src="./js/add_ota_updatesAppliances.js"></script> 
 </div><!-- insert -->
-<p>&nbsp;</p>
-<div id="update">
-    <form method="POST" id="UpdateOTA_UpdateAppliance">
-        <legend><strong>Update OTA_UpdateAppliance</strong></legend>
-          <fieldset class="fields">
-          <input type="hidden" name="otaUpdatesUpdateID" id="updateotaUpdatesUpdateID" value="3001">
-          <label> OTA Updates Update: </label> 
-          <select name="otaUpdatesUpdateID" value="3001">
-            <option value="3001" selected>3001</option>
-            <option value="3002">3002</option>
-            <option value="3003">3003</option>
-          </select>
-            <label> Appliances Appliance ID </label> 
-            <select name="appliancesApplianceID" value="2001">
-              <option value="2001" selected>2001</option>
-              <option value="2002">2002</option>
-              <option value="2003">2003</option>
-            </select>
-       </fieldset>
-          <input class="btn" type="submit" id="UpdateSaveOTA_UpdateAppliance" value="Save Update OTA_UpdateAppliance">
-          <input class="btn" type="button" value="cancel" onClick="browseOTA_UpdatesAppliances()">
-	</form> 
-</div><!-- update -->
+
+<!--
 <p>&nbsp;</p>
 <div id="delete" style="display: block">
   <form method="POST" id="deleteOTA_UpdateAppliance">
@@ -134,7 +114,7 @@
     <input class="btn" type="submit" id="DeleteOTA_UpdateAppliance" value="Delete OTA_UpdateAppliance">
           <input class="btn" type="button" value="cancel" onClick="browseOTA_UpdatesAppliances()">
   </form> 
-</div><!-- delete -->
+</div>delete -->
 
 </body>
 </html>
