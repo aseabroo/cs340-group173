@@ -30,6 +30,7 @@ addUserForm.addEventListener("submit", function (e) {
     let upSizeValue = upSizeInput.value;
     let statusValue = statusInput.value;
 
+
     // Put our data we want to send in a javascript object
     let data = {
         updateVersion: versionValue, 
