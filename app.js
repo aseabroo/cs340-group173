@@ -398,6 +398,20 @@ app.put('/put-customerService-ajax', function(req,res,next){
 
 
 /*---------------------------------------------------------------------------------------
+Implementation of OTA_UpdatesAppliances page
+---------------------------------------------------------------------------------------*/
+
+app.get('/ota_updatesappliances', function(req,res) {
+    let otaUpAppDisplay = `SELECT * FROM OTA_UpdatesAppliances`;
+
+    db.pool.query(otaUpAppDisplay, function(error, rows, fields) {
+        res.render('ota_updatesappliances', {UppApp: rows});
+    })
+});
+
+
+
+/*---------------------------------------------------------------------------------------
 Implementation of Appliances page
 ---------------------------------------------------------------------------------------*/
 
