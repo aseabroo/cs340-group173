@@ -465,38 +465,42 @@ app.post('/add-appliance-ajax', function(req, res) {
 
 });
 
-app.put('/put-appliance-ajax', function(req,res,next){
+app.put('/put-appliance-ajax', function(req, res, next) {
     let data = req.body;
-  
-    let applianceID = data.applianceID;
-    let model = data.model;
-    let datePurchased = data.datePurchased;
-    let lastUpdated = data.lastUpdated;
-    let userID = data.userID;
-  
-    let updateApplianceQuery = `
-    UPDATE Appliances 
-    SET 
-        model = COALESCE(?, model),
-        datePurchased = COALESCE(?, datePurchased),
-        lastUpdated = COALESCE(?, lastUpdated),
-        userID = COALESCE(?, userID)
-    WHERE applianceID = ?
-    `;
-  
-          // Run the 1st query
-          db.pool.query(updateApplianceQuery, [model, datePurchased, lastUpdated, userID, applianceID], function(error, rows, fields){
-              if (error) {
-  
-              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-              console.log(error);
-              res.sendStatus(400);
+    let applianceID = parseInt(data.applianceID);
 
-            } else {
-                res.send(rows);
-            }
-  })});
+    // Validate applianceID to ensure it's a number
+    if (isNaN(applianceID)) {
+        console.log("Invalid applianceID");
+        return res.sendStatus(400); // Bad request
+    }
 
+    let updateApplianceQuery = `UPDATE Appliances SET model = ?, datePurchased = ?, lastUpdated = ? WHERE applianceID = ?`;
+
+    // Execute the update query
+    db.pool.query(updateApplianceQuery, [data.model, data.datePurchased, data.lastUpdated, applianceID], function(error, rows, fields) {
+        if (error) {
+            // Log the error to the console and send a 400 Bad Request response
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            // Query to select the updated appliance
+            let selectApplianceQuery = `SELECT * FROM Appliances WHERE applianceID = ?`;
+
+            // Execute the select query
+            db.pool.query(selectApplianceQuery, [applianceID], function(selectError, selectRows, selectFields) {
+                if (selectError) {
+                    // Log the error to the console and send a 400 Bad Request response
+                    console.log(selectError);
+                    res.sendStatus(400);
+                } else {
+                    // Send the selected rows as the response
+                    res.send(selectRows);
+                }
+            });
+        }
+    });
+});
 
 
 app.delete('/delete-appliance-ajax', function(req,res,next){
