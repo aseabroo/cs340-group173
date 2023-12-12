@@ -80,12 +80,13 @@
     <!-- Handlebars templating to create the table to appliances in the database -->
     <table border="1" cellpadding="5" id="applianceTable">
       <tr>
-        <th><a href="#" onClick="newAppliance()">New</a></th>
-        <th></th>
-        <!-- Dynamically generate table headers -->
-        {{#each appliancesData.[0]}}
-            <th>{{@key}}</th>
-        {{/each}}
+        <th>Edit</th> <!-- Header is for the Edit link -->
+        <th>Delete</th> <!-- Header is for the Delete button -->
+        <th>Appliance ID</th>
+        <th>Model</th>
+        <th>Date Purchased</th>
+        <th>Last Updated</th>
+        <th>User ID</th>
       </tr>
       <!-- Dynamically generate table rows -->
       {{#each appliancesData}}
