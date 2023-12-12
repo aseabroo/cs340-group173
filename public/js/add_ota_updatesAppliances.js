@@ -72,7 +72,7 @@ addRowToTable = (data) => {
 
     // Create a row and 4 cells
     let row = document.createElement("TR");
-    let editCell = document.createElement("TD");
+    //let editCell = document.createElement("TD");
     let delCell = document.createElement("TD");
     let upIDCell = document.createElement("TD");
     let appIDCell = document.createElement("TD");
@@ -80,6 +80,7 @@ addRowToTable = (data) => {
 
     // Fill the cells with correct data
    
+
     upIDCell.innerText = newRow.otaUpdatesUpdateID;
     appIDCell.innerText = newRow.appliancesApplianceID;
 
@@ -89,7 +90,7 @@ addRowToTable = (data) => {
 
 
     // Add the cells to the row 
-    row.appendChild(editCell);
+    //row.appendChild(editCell);
     row.appendChild(delCell);
     row.appendChild(upIDCell);
     row.appendChild(appIDCell);

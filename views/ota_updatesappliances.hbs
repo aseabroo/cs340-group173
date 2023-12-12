@@ -65,15 +65,16 @@
  <!-- Handlebars templating to create the table in the database -->
 <table border="1" cellpadding="5" id="OTA_UpApTable">
   <tr>
+
     <th>Edit</th> <!-- Header is for the Edit link -->
     <th>Delete</th> <!-- Header is for the Delete button -->
-    <th>OTA Updates Update</th>
+    <th>OTA Updates Update ID</th>
+
     <th>Appliances Appliance ID</th>
   </tr>
   <!-- Dynamically generate table rows -->
   {{#each UppApp}}
   <tr data-value='{{this.otaUpdatesUpdateID}},{{this.appliancesApplianceID}}'>
-    <td><a href="#" onClick="updateUpApp({{this.otaUpdatesUpdateID}},{{this.appliancesApplianceID}})">Edit</a></td>
     <td><button onclick="deleteUpApp({{this.otaUpdatesUpdateID}},{{this.appliancesApplianceID}})">Delete</button></td>
     <td>{{this.otaUpdatesUpdateID}}</td>
     <td>{{this.appliancesApplianceID}}</td>
