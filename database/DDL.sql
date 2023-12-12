@@ -51,7 +51,7 @@ CREATE OR REPLACE TABLE CustomerServices (
     FOREIGN KEY(applianceID) REFERENCES Appliances(applianceID) ON DELETE SET NULL,
     FOREIGN KEY(userID) REFERENCES Users(userID) ON DELETE CASCADE
 );
-ALTER TABLE Users AUTO_INCREMENT = 4000; --incremented to prevent overlap with other iDs
+ALTER TABLE CustomerServices AUTO_INCREMENT = 4000; --incremented to prevent overlap with other iDs
 
 -- OTA_Updates table represents and logs the OTA updates 
 CREATE OR REPLACE TABLE OTA_Updates (
@@ -62,7 +62,7 @@ CREATE OR REPLACE TABLE OTA_Updates (
     status ENUM('completed','pending','resolved','escalated') NULL,
     PRIMARY KEY (updateID)
 );
-ALTER TABLE Users AUTO_INCREMENT = 3000; --incremented to prevent overlap with other iDs
+ALTER TABLE OTA_Updates AUTO_INCREMENT = 3000; --incremented to prevent overlap with other iDs
 
 -- OTA_UpdatesAppliances is an intersection table facilitating the M:N relationship between OTA_Updates and the Appliances they apply to
 CREATE OR REPLACE TABLE OTA_UpdatesAppliances(
