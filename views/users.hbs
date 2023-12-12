@@ -1,9 +1,16 @@
 <!DOCTYPE html>
+<!--
+  # Function showform controls visibility of different sections. Helper functions that use showform are implemented as well.
+  # Date: 12/11/2023
+  # Originality: Adapted from stackoverflow. Recycled the function to suit the needs for the page.
+  # Source URL: https://stackoverflow.com/questions/14681660/show-form-elements-using-javascript
+   -->
 <html>
 <head>
 <title>Users</title>
 <link href="/style.css" rel="stylesheet" type="text/css" />
 <script language="JavaScript">
+    // Function to control the visibility of different sections
 		function showform(dowhat) {
 			/*
 			* four DIVS: browse, insert, update, delete
@@ -40,6 +47,7 @@
 				document.getElementById('delete').style.display = 'none';
 			}
 		}
+    // Helper functions to trigger showform with specific actions
     function newUser() { showform('insert'); }
     function updateUser(pid) { showform('update'); }
     function deleteUser(pid) { showform ('delete'); }
@@ -51,21 +59,29 @@
 <body onload="browseUser()">
 <h1>Users</h1>
 <nav>
+    <!-- Navigation Links -->
     [ <a href="/users">Users</a> | <a href="/appliances">Appliances</a> | <a href="/ota_updates">OTA_Updates</a>  | <a href="/customerservices">CustomerServices</a> | <a href="/ota_updatesappliances">OTA_UpdatesAppliances</a>  ]
     </nav>
+
+<!-- Browse Section -->
 <div id="browse">
 <p><a href="#" onClick="showAll()">Display all forms</a> </p>
 
 <!-- Handlebars templateing to create the table to users in the database -->
 <table border="1" cellpadding="5" id="userTable">
+  <!-- Table Headers -->
   <tr>
-    <th><a href="#" onClick="newUser()">New</a></th>
-    <th></th>
-    {{#each usersData.[0]}}
-        <th>{{@key}}</th>
-    {{/each}}
+    <th>Edit</th> <!-- Header is for the Edit link -->
+    <th>Delete</th> <!-- Header is for the Delete button -->
+    <th>User ID</th>
+    <th>Email</th>
+    <th>Name</th>
+    <th>Address</th>
+    <th>Phone</th>
   </tr>
+  <!-- Dynamically Generated Table Rows -->
   {{#each usersData}}
+  <!-- User Data Rows -->
   <tr data-value={{this.userID}}>
     <td><a href="#" onClick="updateUser({{this.userID}})">Edit</a></td>
     <td><button onclick="deleteUser({{this.userID}})">Delete</button></td>
@@ -78,9 +94,9 @@
   {{/each}}
 </table>
 <script src="./js/delete_user.js"></script>
+</div>
 
-<p>&nbsp;</p>
-</div> <!-- browse -->
+<!-- Insert Section --> 
 <div id="insert">
     <form id="addUser">
         <legend><strong>Add User</strong></legend>
@@ -94,9 +110,9 @@
           <input class="btn" type="button" value="cancel" onClick="browseUsers()">
 	</form> 
     <script src="./js/add_user.js"></script>
-</div><!-- insert -->
+</div>
 
-<p>&nbsp;</p>
+<!-- Update Section -->
 <div id="update">
     <form id="update-user-form-ajax">
         <legend><strong>Update User</strong></legend>
@@ -117,44 +133,5 @@
     </form>
     <script src="./js/update_user.js"></script>
 </div>
-
-
-
-
-
-
-
-<!--
-<div id="update">
-    <form method="POST" id="UpdateUser">
-        <legend><strong>Update User</strong></legend>
-          <fieldset class="fields">
-          <input type="hidden" name="userID" id="updateuserID" value="1001">
-          <label> userID </label> 1001
-            <label> name </label> <input type="text" name="name" value="John Doe">
-            <label> email </label> <input type="text" name="email" value="john.doe@example.com">
-            <label> address </label> <input type="text" name="address" value="123 Oak Street">
-            <label> phone </label> <input type="text" name="phone" value="98765433210">
-      </fieldset>
-          <input class="btn" type="submit" id="UpdateSaveUser" value="Save Update User">
-          <input class="btn" type="button" value="cancel" onClick="browseUsers()">
-	</form> 
-</div> update 
-<p>&nbsp;</p>
-<div id="delete" style="display: block">
-  <form method="POST" id="deleteUser">
-      <legend><strong>Delete User</strong></legend>
-          <fieldset class="fields">
-          <p>Are you sure you wish to delete the following?</p>
-          <input type="hidden" name="userID" id="deleteuserID" value="1001">
-          <label><strong>userID:</strong></label> 1001
-            <label> <strong>Name:</strong> </label> John Doe
-            
-    </fieldset>
-    <input class="btn" type="submit" id="DeleteUser" value="Delete User">
-          <input class="btn" type="button" value="cancel" onClick="browseUsers()">
-  </form> 
-</div><! delete -->
-
 </body>
 </html>

@@ -1,8 +1,16 @@
+<!DOCTYPE html>
+<!--
+  # Function showform controls visibility of different sections. Helper functions that use showform are implemented as well.
+  # Date: 12/11/2023
+  # Originality: Adapted from stackoverflow. Recycled the function to suit the needs for the page.
+  # Source URL: https://stackoverflow.com/questions/14681660/show-form-elements-using-javascript
+   -->
 <html>
 <head>
 <title>OTA_Updates</title>
 <link href="style.css" rel="stylesheet" type="text/css" />
 <script language="JavaScript">
+      // Function to control the visibility of different sections
 		function showform(dowhat) {
 			/*
 			* four DIVS: browse, insert, update, delete
@@ -39,6 +47,7 @@
 				document.getElementById('delete').style.display = 'none';
 			}
 		}
+    // Helper functions to trigger showform with specific actions
     function newOTA_Update() { showform('insert'); }
     function updateOTA_Update(pid) { showform('update'); }
     function deleteOTA_Update(pid) { showform ('delete'); }
@@ -50,20 +59,29 @@
 <body onload="browseOTA_Update()">
 <h1>OTA_Updates</h1>
 <nav>
+    <!-- Navigation Links -->
     [ <a href="/users">Users</a> | <a href="/appliances">Appliances</a> | <a href="/ota_updates">OTA_Updates</a>  | <a href="/customerservices">CustomerServices</a> | <a href="/ota_updatesappliances">OTA_UpdatesAppliances</a>  ]
     </nav>
+
+<!-- Browse Section -->
 <div id="browse">
 <p><a href="#" onClick="showAll()">Display all forms</a> </p>
 
+<!-- Handlebars templateing to create the table in the database -->
 <table border="1" cellpadding="5" id="updateTable">
+    <!-- Table Headers -->
   <tr>
-    <th><a href="#" onClick="newOTA_Update()">New</a></th>
-    <th></th>
-    {{#each updatesData.[0]}}
-        <th>{{@key}}</th>
-    {{/each}}
+    <th>Edit</th> <!-- Header is for the Edit link -->
+    <th>Delete</th> <!-- Header is for the Delete button -->
+    <th>Update ID</th>
+    <th>Update version</th>
+    <th>Release Date</th>
+    <th>Update Size</th>
+    <th>Status</th>
   </tr>
+    <!-- Dynamically Generated Table Rows -->
   {{#each updatesData}}
+   <!-- User Data Rows -->
   <tr data-value="{{this.updateID}}">
     <td><a href="#" onClick="updateOTA_Update({{this.updateID}})">Edit</a></td>
     <td><button onclick="deleteUpdate({{this.updateID}})">Delete</button></td>
@@ -76,9 +94,9 @@
   {{/each}}
 </table>
 <script src="./js/delete_update.js"></script>
+</div> 
 
-<p>&nbsp;</p>
-</div> <!-- browse -->
+<!-- Insert Section --> 
 <div id="insert">
     <form id="addUpdate">
         <legend><strong>Add OTA_Update</strong></legend>
@@ -99,9 +117,9 @@
           <input class="btn" type="button" value="cancel" onClick="browseOTA_Updates()">
 	</form> 
     <script src="./js/add_update.js"></script>
-</div><!-- insert -->
+</div>
 
-<p>&nbsp;</p>
+<!-- Update Section -->
 <div id="update">
     <form method="POST" id="update-update-form-ajax">
         <legend><strong>Update OTA_Update</strong></legend>
@@ -129,7 +147,9 @@
 
 	</form> 
   <script src="./js/update_update.js"></script>
-</div><!-- update -->
+</div>
+</body>
+</html>
 
 
 

@@ -1,8 +1,16 @@
+<!DOCTYPE html>
+<!--
+  # Function showform controls visibility of different sections. Helper functions that use showform are implemented as well.
+  # Date: 12/11/2023
+  # Originality: Adapted from stackoverflow. Recycled the function to suit the needs for the page.
+  # Source URL: https://stackoverflow.com/questions/14681660/show-form-elements-using-javascript
+  -->
 <html>
 <head>
 <title>OTA_UpdatesAppliances</title>
 <link href="style.css" rel="stylesheet" type="text/css" />
 <script language="JavaScript">
+      // Function to control the visibility of different sections
 		function showform(dowhat) {
 			/*
 			* four DIVS: browse, insert, update, delete
@@ -54,14 +62,15 @@
     </nav>
 <div id="browse">
 <p><a href="#" onClick="showAll()">Display all forms</a> </p>
-
+ <!-- Handlebars templating to create the table in the database -->
 <table border="1" cellpadding="5" id="OTA_UpApTable">
   <tr>
-    <th><a href="#" onClick="newOTA_UpdateAppliance()">New</a></th>
-    <th>
+    <th>Edit</th> <!-- Header is for the Edit link -->
+    <th>Delete</th> <!-- Header is for the Delete button -->
     <th>OTA Updates Update</th>
     <th>Appliances Appliance ID</th>
   </tr>
+  <!-- Dynamically generate table rows -->
   {{#each UppApp}}
   <tr data-value='{{this.otaUpdatesUpdateID}},{{this.appliancesApplianceID}}'>
     <td><a href="#" onClick="updateUpApp({{this.otaUpdatesUpdateID}},{{this.appliancesApplianceID}})">Edit</a></td>
@@ -72,10 +81,8 @@
   {{/each}}
 </table>
 <script src="./js/delete_ota_updatesAppliances.js"></script>
+</div> 
 
-
-<p>&nbsp;</p>
-</div> <!-- browse -->
 <div id="insert">
     <form method="POST" id="addOTA_UpdateAppliance">
         <legend><strong>Add OTA_UpdateAppliance</strong></legend>
@@ -97,24 +104,6 @@
           <input class="btn" type="button" value="cancel" onClick="browseOTA_UpdatesAppliances()">
 	</form>
     <script src="./js/add_ota_updatesAppliances.js"></script> 
-</div><!-- insert -->
-
-<!--
-<p>&nbsp;</p>
-<div id="delete" style="display: block">
-  <form method="POST" id="deleteOTA_UpdateAppliance">
-      <legend><strong>Delete OTA_UpdateAppliance</strong></legend>
-          <fieldset class="fields">
-          <p>Are you sure you wish to delete the following?</p>
-          <input type="hidden" name="otaUpdatesUpdateID" id="deleteotaUpdatesUpdateID" value="3001">
-          <label><strong>OTA Updates Update: </strong></label> 3001
-            <label> <strong>Appliances Appliance ID: </strong> </label> 2001
-            
-    </fieldset>
-    <input class="btn" type="submit" id="DeleteOTA_UpdateAppliance" value="Delete OTA_UpdateAppliance">
-          <input class="btn" type="button" value="cancel" onClick="browseOTA_UpdatesAppliances()">
-  </form> 
-</div>delete -->
-
+</div>
 </body>
 </html>
