@@ -3,28 +3,27 @@ let updateApplianceForm = document.getElementById('update-appliance-form-ajax');
 
 // Modify the objects we need
 updateApplianceForm.addEventListener("submit", function (e) {
-   
+    console.log('submit working');
     // Prevent the form from submitting
     e.preventDefault();
 
       // Get form fields we need to get data from
-      let inputApplianceID = document.getElementById("input-applianceID");
-      let inputModel = document.getElementById("input-model");
-      let inputDatePurchased = document.getElementById("input-datePurchased");
-      let inputLastUpdated = document.getElementById("input-lastUpdated");
-      let inputUserID = document.getElementById("input-userID");
-  
+      let inputApplianceID = document.getElementById("applianceIDSelect");
+      let inputModel = document.getElementById("input-modelUpdate");
+      let inputDatePurchased = document.getElementById("input-datePurchasedUpdate");
+      let inputLastUpdated = document.getElementById("input-lastUpdatedUpdate");
+      let inputUserID = document.getElementById("input-userIDUpdate");
+     
       // Get the values from the form fields
       let applianceIDValue = inputApplianceID.value;
       let modelValue = inputModel.value;
       let datePurchasedValue = inputDatePurchased.value;
       let lastUpdatedValue = inputLastUpdated.value;
       let userIDValue = inputUserID.value;
-    
+
     // currently the database table for bsg_people does not allow updating values to NULL
     // so we must abort if being bassed NULL for homeworld
-
-
+  
     // Put our data we want to send in a javascript object
     let data = {
         applianceID: applianceIDValue,
@@ -33,7 +32,7 @@ updateApplianceForm.addEventListener("submit", function (e) {
         lastUpdated: lastUpdatedValue,
         userID: userIDValue
     }
-    console.log(data);
+ 
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
     xhttp.open("PUT", "/put-appliance-ajax", true);
@@ -45,6 +44,11 @@ updateApplianceForm.addEventListener("submit", function (e) {
 
             // Add the new data to the table
             updateRow(xhttp.response, applianceIDValue);
+              // Clear the input fields for another transaction
+              inputModel.value = '';
+              inputDatePurchased.value = '';
+              inputLastUpdated.value = '';
+              inputUserID.value = '';
 
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
@@ -60,7 +64,7 @@ updateApplianceForm.addEventListener("submit", function (e) {
 
 function updateRow(data, applianceID){
     let parsedData = JSON.parse(data);
-    
+    console.log("correctly sends data");
     let table = document.getElementById("applianceTable");
 
     for (let i = 0, row; row = table.rows[i]; i++) {
@@ -72,10 +76,16 @@ function updateRow(data, applianceID){
             let updateRowIndex = table.getElementsByTagName("tr")[i];
 
             // Get td of homeworld value
-            let td = updateRowIndex.getElementsByTagName("td")[3];
-
+            let tdModel = updateRowIndex.getElementsByTagName("td")[3];
+            let tdDatePurchased = updateRowIndex.getElementsByTagName("td")[4];
+            let tdLastUpdated = updateRowIndex.getElementsByTagName("td")[5];
+            let tdUserID = updateRowIndex.getElementsByTagName("td")[6];
+            //need to do it for 4-6
             // Reassign homeworld to our value we updated to
-            td.innerHTML = parsedData[0].applianceID; 
+            tdModel.innerHTML = parsedData[0].model; 
+            tdDatePurchased.innerHTML = parsedData[0].datePurchased;
+            tdLastUpdated.innerHTML = parsedData[0].lastUpdated;
+            tdUserID.innerHTML = parsedData[0].userID
        }
     }
 }
